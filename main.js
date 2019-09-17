@@ -4,10 +4,20 @@ const usernameField = document.getElementById('username');
 const addUserBtn = document.querySelector('.add-user-btn');
 
 
-addUserBtn.addEventListener('click', (e) => {
-  e.preventDefault();
+function addUser() {
   users.push({
     name: nameField.value,
     username: usernameField.value,
   });
+}
+
+function clearFormInputs() {
+  nameField.value = '';
+  usernameField.value = '';
+}
+
+addUserBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  addUser();
+  clearFormInputs();
 });
