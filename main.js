@@ -1,3 +1,4 @@
+// https://taniarascia.github.io/react-hooks/ inspiration
 const users = [];
 const nameField = document.getElementById('name');
 const usernameField = document.getElementById('username');
@@ -11,6 +12,12 @@ function addUser() {
   });
 }
 
+function displayUsers() { 
+  console.log('users');
+    
+  users.forEach((user) => console.log(user));
+}
+
 function clearFormInputs() {
   nameField.value = '';
   usernameField.value = '';
@@ -20,4 +27,5 @@ addUserBtn.addEventListener('click', (e) => {
   e.preventDefault();
   addUser();
   clearFormInputs();
+  displayUsers();
 });
