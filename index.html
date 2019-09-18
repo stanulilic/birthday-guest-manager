@@ -8,17 +8,24 @@
     <title>Document</title>
 </head>
 <body>
-   <form class="user_form">
+  <div class="row">
+   <div class="logo">
+      <h1>Birthday Guests Manager</h1>
+   </div>
+   <form class="setup-birthday">
      <p>
-       <label for="name">Name</label>
-       <input type="text" id="name" required>
+       <label for="birthday-date">Birthday Date</label>
+       <input type="date" id="birthday-date" required>
        </p>
      <p>
-       <label for="username">Username</label>
-       <input type="text" id="username" required>
+       <label for="expected-guests">Expected Guests</label>
+       <input type="number" id="expected-guests" required>
        </p>
-       <button class="add-user-btn">Add User</button>
+       <p class="setup-btn-wrap">
+       <button class="setup-birthday-btn btn btn-primary">Set up Birthday</button>
+       </p>
    </form> 
+   </div>
     <script src="main.js"></script>
 </body>
 </html>
