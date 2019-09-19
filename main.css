@@ -447,7 +447,24 @@ body {
 }
 
 .error {
-  color: red;
+  font-size: 12px;
+  color: #a94442;
+}
+
+.has-error {
+      border: 1px solid #a94442 !important;
+    outline: 0; 
+}
+
+.focus-error {
+      border: 1px solid #a94442 !important;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px #ce8483 !important;
+}
+
+
+.success {
+ color: #3c763d;
+ fill: #3c763d;
 }
 
 .logo {
@@ -501,6 +518,7 @@ body {
 .setup-birthday p  input {
     flex: 1 0 60%;
     padding: 10px;
+    background: #fff;
 }
 
 .setup-birthday p input:focus {
@@ -514,6 +532,8 @@ body {
   position: absolute;
     right: 4px;
 }
+
+
 
 .setup-birthday-btn {
   margin-top: 35px;

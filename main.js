@@ -4,38 +4,50 @@ const expectedGuestsField = document.getElementById('expected-guests');
 const setupBirthdayForm = document.querySelector('.setup-birthday');
 
 
+// eslint-disable-next-line func-names
 birthdayDateField.addEventListener('focus', function (e) {
-  console.log(this.parentNode.querySelector('.icon').classList.add('hidden'));
-})
-
-const eventsList = ['blur', 'input'];
-
-eventsList.forEach(event => 
-
-  birthdayDateField.addEventListener(event, function (e) {
-    let regex = /20\d{2}-\d{2}-\d{2}/;
-    let parent = this.parentNode;
+  // hide any icon appearing in the text field
+  this.parentNode.querySelector('.icon').classList.add('hidden');
+  if(this.classList.contains('has-error')) {
+    this.classList.add('focus-error');
+  }
 
 
-    let errorMessage = setupBirthdayForm.querySelector('.error');
+});
 
-    if (regex.test(this.value)) {
-      console.log(this.parentNode.querySelector('.error'));
-      if(setupBirthdayForm.querySelector('#birthday-date').parentNode.nextElementSibling === errorMessage) {
-        setupBirthdayForm.removeChild(setupBirthdayForm.querySelector('#birthday-date').parentNode.nextElementSibling);
-      }
-      parent.querySelector('.icon').classList.remove('hidden');
+const eventsList = ['input', 'blur'];
+
+eventsList.forEach((event) => birthdayDateField.addEventListener(event, function (e) {
+  const regex = /20\d{2}-\d{2}-\d{2}/;
+  const parent = this.parentNode;
+  const errorMessage = setupBirthdayForm.querySelector('.error');
+  const getNextSibling = setupBirthdayForm.querySelector('#birthday-date')
+    .parentNode.nextElementSibling; 
+
+  // if input is valid
+  if (regex.test(this.value)) {
+    // check if an error message exists
+    if (getNextSibling === errorMessage) {
+      // remove error message if it exists
+      setupBirthdayForm.removeChild(getNextSibling);
     }
-    else {
+    this.classList.remove('has-error', 'focus-error');
+    parent.querySelector('.icon').classList.remove('hidden');
+  }
+  // input is invalid
+  else{ 
+      this.classList.add('has-error');
+      parent.querySelector('.icon').classList.add('hidden');
+      // check if error messages already exists
       if(errorMessage) {
         return false;
-      }
-      else {
-        let p = document.createElement('p');
-        p.textContent = 'Please enter date using the following format: /mm/dd/yyyy';
-        p.className = 'error';
-        parent.parentNode.insertBefore(p, this.parentNode.nextSibling);
-      }
+       }
+       // create error message if it doesn't exist
+  else {
+      let p = document.createElement('p');
+      p.textContent = 'Please enter date using the following format: /mm/dd/yyyy';
+      p.className = 'error';
+      parent.parentNode.insertBefore(p, this.parentNode.nextSibling);
     }
-  })
-);
+}
+}));
