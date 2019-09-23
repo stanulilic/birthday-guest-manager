@@ -456,15 +456,30 @@ body {
     outline: 0; 
 }
 
-.focus-error {
-      border: 1px solid #a94442 !important;
+.has-error:focus {
+        border: 1px solid #a94442 !important;
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px #ce8483 !important;
+}
+
+
+.has-success {
+      border: 1px solid #3c763d !important;
+}
+
+.has-success:focus {
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px #3c763d !important;
 }
 
 
 .success {
  color: #3c763d;
  fill: #3c763d;
+}
+
+.fail {
+  fill: #a94442;
+  color: #a94442;
+
 }
 
 .logo {
@@ -530,7 +545,8 @@ body {
 
 .setup-birthday .icon {
   position: absolute;
-    right: 4px;
+  top: 50%;
+  right: -24px;
 }
 
 
@@ -538,7 +554,11 @@ body {
 .setup-birthday-btn {
   margin-top: 35px;
 }
-
+@media screen and (min-width: 318px) {
+  .setup-birthday .icon {
+   top: unset;
+  }
+}
 
 @media screen and (min-width: 490px) {
     .setup-birthday p {
