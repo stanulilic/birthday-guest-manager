@@ -6,16 +6,18 @@ const formInputs = document.querySelectorAll('input');
 
 const fieldsData = {
   birthdayField: {
-    regex:/20\d{2}-\d{2}-\d{2}/, 
+    regex: /20\d{2}-\d{2}-\d{2}/,
     message: 'Please enter date with a valid format: mm/dd/yyyy'
-  },
+  }
 };
 
 const validators = {
   validateInput(regex, fieldValue) {
-    if (regex.test(fieldValue)) { return true; }
+    if (regex.test(fieldValue)) {
+      return true;
+    }
     return false;
-  },
+  }
 };
 
 const view = {
@@ -24,24 +26,44 @@ const view = {
     paragraph.textContent = message;
     paragraph.className = 'error';
     domPath.insertAdjacentElement('afterend', paragraph);
-
   },
 
   checkIfErrorMessageExists(parentSibling) {
     if (parentSibling.className === 'error') {
       return true;
-    } 
+    }
     return false;
-    
   },
 
   removeErrorMessage(parentSibling) {
     if (this.checkIfErrorMessageExists(parentSibling)) {
       parentSibling.remove();
     }
-  }
-}
+  },
 
+  showInputIsValid(parent, target, parentSibling) {
+    this.removeErrorMessage(parentSibling);
+    // show checkmark icon
+    parent.querySelector('.icon-checkmark-outline').classList.remove('hidden');
+    target.classList.add('has-success');
+    // remove close/error icon
+    parent.querySelector('.icon-close-outline').classList.add('hidden');
+    // remove error outline
+    target.classList.remove('has-error');
+  },
+
+  showInputIsInvalid(parent, target, parentSibling, message) {
+    if (!this.checkIfErrorMessageExists(parentSibling)) {
+      this.createMessage(parent, message);
+    }
+    // hide error/checkmark icon
+    parent.querySelector('.icon-checkmark-outline').classList.add('hidden');
+    // show error icon
+    parent.querySelector('.icon-close-outline').classList.remove('hidden');
+    target.classList.add('has-error');
+    target.classList.remove('has-success');
+  },
+};
 
 function validateInput(event) {
   const target = event.target;
@@ -53,25 +75,9 @@ function validateInput(event) {
       const { regex, message } = fieldsData.birthdayField;
       const validate = validators.validateInput(regex, birthdayDateField.value);
       if (validate) {
-        view.removeErrorMessage(parentSibling);
-        // show checkmark icon
-        parent.querySelector('.icon-checkmark-outline').classList.remove('hidden');
-        target.classList.add('has-success');
-
-        // remove close/error icon
-        parent.querySelector('.icon-close-outline').classList.add('hidden');
-        // remove error outline
-        target.classList.remove('has-error');
+        view.showInputIsValid(parent, target, parentSibling);
       } else {
-        if (!view.checkIfErrorMessageExists(parentSibling)) {
-          view.createMessage(parent, message);
-        }
-        // hide error/checkmark icon 
-        parent.querySelector('.icon-checkmark-outline').classList.add('hidden');
-        // show error icon
-        parent.querySelector('.icon-close-outline').classList.remove('hidden');
-        target.classList.add('has-error');
-        target.classList.remove('has-success');
+        view.showInputIsInvalid(parent, target, parentSibling, message);
       }
       break;
     default:
