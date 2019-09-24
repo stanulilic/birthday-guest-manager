@@ -29,6 +29,16 @@ const fieldsData = {
   },
 };
 
+const guests = {
+  addedGuests: [],
+  addGuests(name, location) {
+    this.addedGuests.push({
+      name,
+      location,
+    });
+  },
+};
+
 const view = {
   createMessage(domPath, message) {
     const paragraph = document.createElement('p');
@@ -141,7 +151,12 @@ formInputs.forEach(inputField => {
 
 });
 
-setUpBirthdayBtn.addEventListener('click', function(e) {
-  e.preventDefault()
+setUpBirthdayBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+});
 
-})
+addGuestsBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  guests.addGuests(nameField.value, locationField.value);
+  console.log(guests.addedGuests);
+});
