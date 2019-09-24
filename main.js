@@ -4,9 +4,11 @@ const expectedGuestsField = document.getElementById('expected-guests');
 const setupBirthdayForm = document.querySelector('.setup-birthday');
 const setUpBirthdayBtn = document.querySelector('.setup-birthday-btn');
 const nameField = document.getElementById('name');
+const locationField = document.getElementById('location');
+const addGuestsBtn = document.querySelector('.add-guests-btn');
 const formInputs = document.querySelectorAll('input');
 let isBirthdayFieldValid; let isExpectedGuestsFieldValid;
-let isNameFieldValid;
+let isNameFieldValid; let isLocationFieldValid;
 
 const fieldsData = {
   birthdayField: {
@@ -21,6 +23,10 @@ const fieldsData = {
     regex: /^[ \u00c0-\u01ffa-zA-Z'\-]+$/,
     message: 'Please enter a real name',
   },
+  locationField: {
+    regex: /^[ \u00c0-\u01ffa-zA-Z'\-]+$/,
+    message: 'Please enter a valid location of the guest',
+  },
 };
 
 const view = {
@@ -32,7 +38,7 @@ const view = {
   },
 
   checkIfErrorMessageExists(parentSibling) {
-    if (parentSibling.className === 'error') {
+    if (parentSibling && parentSibling.className === 'error') {
       return true;
     }
     return false;
@@ -107,11 +113,19 @@ function validateInput(event) {
       isNameFieldValid = validators.runValidator(fieldsData.nameField, parent, target,
         parentSibling, nameField);
       break;
+    case 'location':
+      debugger;
+      isLocationFieldValid = validators.runValidator(fieldsData.locationField, parent, target,
+        parentSibling, locationField);
+      break;
     default:
       break;
   }
   if (isBirthdayFieldValid && isExpectedGuestsFieldValid) {
     setUpBirthdayBtn.removeAttribute('disabled');
+  }
+  if (isNameFieldValid && isLocationFieldValid) {
+    addGuestsBtn.removeAttribute('disabled');
   }
 
 }
