@@ -158,5 +158,6 @@ setUpBirthdayBtn.addEventListener('click', (e) => {
 addGuestsBtn.addEventListener('click', (e) => {
   e.preventDefault();
   guests.addGuests(nameField.value, locationField.value);
-  console.log(guests.addedGuests);
+  nameField.value = '';
+  locationField.value = '';
 });
