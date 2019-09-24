@@ -3,8 +3,10 @@ const birthdayDateField = document.getElementById('birthday-date');
 const expectedGuestsField = document.getElementById('expected-guests');
 const setupBirthdayForm = document.querySelector('.setup-birthday');
 const setUpBirthdayBtn = document.querySelector('.setup-birthday-btn');
+const nameField = document.getElementById('name');
 const formInputs = document.querySelectorAll('input');
 let isBirthdayFieldValid; let isExpectedGuestsFieldValid;
+let isNameFieldValid;
 
 const fieldsData = {
   birthdayField: {
@@ -14,6 +16,10 @@ const fieldsData = {
   expectedGuestsField: {
     regex: /[1-9]{1,}/,
     message: 'Please enter a number or digit only'
+  },
+  nameField: {
+    regex: /^[ \u00c0-\u01ffa-zA-Z'\-]+$/,
+    message: 'Please enter a real name',
   },
 };
 
@@ -96,6 +102,10 @@ function validateInput(event) {
     case 'expected-guests':
       isExpectedGuestsFieldValid = validators.runValidator(fieldsData.expectedGuestsField, parent, target,
         parentSibling, expectedGuestsField);
+      break;
+    case 'name':
+      isNameFieldValid = validators.runValidator(fieldsData.nameField, parent, target,
+        parentSibling, nameField);
       break;
     default:
       break;

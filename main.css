@@ -598,6 +598,11 @@ a {
   /* margin-right: 42px; */
 }
 
+.inputs-wrap .error {
+      position: absolute;
+    top: 75px;
+}
+
 .addguests-btn-wrap{
   text-align: right;
 }
