@@ -2,7 +2,9 @@
 const birthdayDateField = document.getElementById('birthday-date');
 const expectedGuestsField = document.getElementById('expected-guests');
 const setupBirthdayForm = document.querySelector('.setup-birthday');
+const setUpBirthdayBtn = document.querySelector('.setup-birthday-btn');
 const formInputs = document.querySelectorAll('input');
+let isBirthdayFieldValid; let isExpectedGuestsFieldValid;
 
 const fieldsData = {
   birthdayField: {
@@ -10,7 +12,7 @@ const fieldsData = {
     message: 'Please enter date with a valid format: mm/dd/yyyy'
   },
   expectedGuestsField: {
-    regex: /\d{1,}/,
+    regex: /[1-9]{1,}/,
     message: 'Please enter a number or digit only'
   },
 };
@@ -73,9 +75,10 @@ const validators = {
     const validate = validators.validateInput(regex, fieldInput.value);
     if (validate) {
       view.showInputIsValid(parent, target, parentSibling);
-    } else {
-      view.showInputIsInvalid(parent, target, parentSibling, message);
-    }
+      return true;
+    } 
+    view.showInputIsInvalid(parent, target, parentSibling, message);
+    
   },
 };
 
@@ -87,16 +90,20 @@ function validateInput(event) {
   const parentSibling = event.target.parentNode.nextElementSibling;
   switch (targetId) {
     case 'birthday-date':
-      validators.runValidator(fieldsData.birthdayField, parent, target,
+      isBirthdayFieldValid = validators.runValidator(fieldsData.birthdayField, parent, target,
         parentSibling, birthdayDateField);
       break;
     case 'expected-guests':
-      validators.runValidator(fieldsData.expectedGuestsField, parent, target,
+      isExpectedGuestsFieldValid = validators.runValidator(fieldsData.expectedGuestsField, parent, target,
         parentSibling, expectedGuestsField);
       break;
     default:
       break;
   }
+  if (isBirthdayFieldValid && isExpectedGuestsFieldValid) {
+    setUpBirthdayBtn.removeAttribute('disabled');
+  }
+
 }
 
 const eventsList = ['input', 'blur'];
@@ -106,5 +113,12 @@ formInputs.forEach(inputField => {
     inputField.addEventListener(event, function(e) {
       validateInput(e);
     });
+
   }
+
 });
+
+setUpBirthdayBtn.addEventListener('click', function(e) {
+  e.preventDefault()
+
+})

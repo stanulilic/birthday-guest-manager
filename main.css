@@ -554,6 +554,10 @@ body {
 .setup-birthday-btn {
   margin-top: 35px;
 }
+
+button[disabled] {
+  background: grey;
+}
 @media screen and (min-width: 318px) {
   .setup-birthday .icon {
    top: unset;
