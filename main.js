@@ -9,6 +9,10 @@ const fieldsData = {
     regex: /20\d{2}-\d{2}-\d{2}/,
     message: 'Please enter date with a valid format: mm/dd/yyyy'
   },
+  expectedGuestsField: {
+    regex: /\d{1,}/,
+    message: 'Please enter a number or digit only'
+  },
 };
 
 const view = {
@@ -64,9 +68,9 @@ const validators = {
     return false;
   },
 
-  runValidator(field, parent, target, parentSibling) {
-    const { regex, message } = field;
-    const validate = validators.validateInput(regex, birthdayDateField.value);
+  runValidator(dataField, parent, target, parentSibling, fieldInput) {
+    const { regex, message } = dataField;
+    const validate = validators.validateInput(regex, fieldInput.value);
     if (validate) {
       view.showInputIsValid(parent, target, parentSibling);
     } else {
@@ -83,10 +87,14 @@ function validateInput(event) {
   const parentSibling = event.target.parentNode.nextElementSibling;
   switch (targetId) {
     case 'birthday-date':
-      validators.runValidator(fieldsData.birthdayField, parent, target, parentSibling);
+      validators.runValidator(fieldsData.birthdayField, parent, target,
+        parentSibling, birthdayDateField);
+      break;
+    case 'expected-guests':
+      validators.runValidator(fieldsData.expectedGuestsField, parent, target,
+        parentSibling, expectedGuestsField);
       break;
     default:
-      console.log('do nothing');
       break;
   }
 }
