@@ -8,16 +8,7 @@ const fieldsData = {
   birthdayField: {
     regex: /20\d{2}-\d{2}-\d{2}/,
     message: 'Please enter date with a valid format: mm/dd/yyyy'
-  }
-};
-
-const validators = {
-  validateInput(regex, fieldValue) {
-    if (regex.test(fieldValue)) {
-      return true;
-    }
-    return false;
-  }
+  },
 };
 
 const view = {
@@ -65,6 +56,26 @@ const view = {
   },
 };
 
+const validators = {
+  validateInput(regex, fieldValue) {
+    if (regex.test(fieldValue)) {
+      return true;
+    }
+    return false;
+  },
+
+  runValidator(field, parent, target, parentSibling) {
+    const { regex, message } = field;
+    const validate = validators.validateInput(regex, birthdayDateField.value);
+    if (validate) {
+      view.showInputIsValid(parent, target, parentSibling);
+    } else {
+      view.showInputIsInvalid(parent, target, parentSibling, message);
+    }
+  },
+};
+
+
 function validateInput(event) {
   const target = event.target;
   const targetId = event.target.id;
@@ -72,16 +83,10 @@ function validateInput(event) {
   const parentSibling = event.target.parentNode.nextElementSibling;
   switch (targetId) {
     case 'birthday-date':
-      const { regex, message } = fieldsData.birthdayField;
-      const validate = validators.validateInput(regex, birthdayDateField.value);
-      if (validate) {
-        view.showInputIsValid(parent, target, parentSibling);
-      } else {
-        view.showInputIsInvalid(parent, target, parentSibling, message);
-      }
+      validators.runValidator(fieldsData.birthdayField, parent, target, parentSibling);
       break;
     default:
-      console.log(' aim nothing');
+      console.log('do nothing');
       break;
   }
 }
