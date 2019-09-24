@@ -114,7 +114,6 @@ function validateInput(event) {
         parentSibling, nameField);
       break;
     case 'location':
-      debugger;
       isLocationFieldValid = validators.runValidator(fieldsData.locationField, parent, target,
         parentSibling, locationField);
       break;

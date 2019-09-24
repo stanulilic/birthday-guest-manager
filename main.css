@@ -531,7 +531,17 @@ a {
 
 .main-content {
   display: flex;
+  flex-direction: column;
+}
+.content-wrapper {
+  padding: 26px;
+}
+
+
+@media screen and (min-width: 850px) {
+.main-content {
   height: 100vh;
+  flex-direction: row;
 }
 
 .sidebar  {
@@ -543,6 +553,7 @@ a {
   flex-basis: 1050px;
   padding-top: 100px;
 }
+}
 
 /* ===========================================================================
     HEADER / SIDEBAR NAV
@@ -551,37 +562,66 @@ a {
 
 .header {
   background: #1a4ed0;
-  top: 0;
-  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 26px;
+  flex-wrap: wrap;
 }
 .header-logo {
   line-height: 23px;
-  margin-top: 64px;
-  margin-left: 16px;
 }
  .header-logo a {
-  font-size: 22px;
+  font-size: 18px;
   color: #fff;
+  margin-right: 0;
 }
+
 
 .header .icon {
   vertical-align: middle;
   fill: #f3faff;
   margin-right: 8px;
-  margin-left: 33px;
 }
 
 .header li a {
   display: block;
   width: 100%;
-  text-align: left;
+  text-align: center;
   /* padding-left: 37px; */
   height: 33px;
   line-height: 33px;
+  margin-right: 37px;
 }
 
 .header li a:hover {
   background: #0f3eb4;
+}
+ .header ul {
+   display: flex;
+ }
+@media screen and (min-width: 850px) {
+.header {
+  height: 100%;
+  display: block;
+}
+  .header-logo {
+    margin-top: 64px;
+    margin-left: 16px;
+  }
+ .header-logo a {
+  font-size: 22px;
+ }
+ .header ul {
+   display: block;
+ }
+.header li a {
+  text-align: left;
+}
+
+.header .icon {
+  margin-left: 33px;
+}
+
 }
 
 /* ===========================================================================
@@ -589,7 +629,7 @@ a {
    ===========================================================================
 */
 
-.add-guests {max-width: 630px;background: #fff;padding: 40px;border-radius: 10px;}
+.add-guests {background: #fff;padding: 40px;border-radius: 10px;}
 
 .inputs-wrap  {
   justify-content: space-between;
@@ -606,6 +646,13 @@ a {
 .addguests-btn-wrap{
   text-align: right;
 }
+
+@media screen and (min-width: 850px) {
+  .add-guests {
+    max-width: 630px;
+  }
+}
+
 .setup-birthday {
     max-width: 400px;
     margin: 0 auto;
