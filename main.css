@@ -525,14 +525,32 @@ a {
 }
 
 /* ===========================================================================
-    HEADER
+    MAIN CONTENT
+   ===========================================================================
+*/
+
+.main-content {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar  {
+  flex-basis: 240px;
+  margin-right: 26px;
+}
+
+.content-wrapper {
+  flex-basis: 1050px;
+  padding-top: 100px;
+}
+
+/* ===========================================================================
+    HEADER / SIDEBAR NAV
    ===========================================================================
 */
 
 .header {
   background: #1a4ed0;
-  width: 240px;
-  position: fixed;
   top: 0;
   height: 100%;
 }
@@ -565,6 +583,24 @@ a {
 .header li a:hover {
   background: #0f3eb4;
 }
+
+/* ===========================================================================
+    Add Guests Section
+   ===========================================================================
+*/
+
+.add-guests {max-width: 630px;background: #fff;padding: 40px;border-radius: 10px;}
+
+.inputs-wrap  {
+  justify-content: space-between;
+}
+.inputs-wrap p {
+  /* margin-right: 42px; */
+}
+
+.addguests-btn-wrap{
+  text-align: right;
+}
 .setup-birthday {
     max-width: 400px;
     margin: 0 auto;
@@ -573,7 +609,7 @@ a {
     border-radius: 10px;
 }
 
-.setup-birthday p {
+.setup-birthday p, .add-guests .inputs-wrap {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -582,17 +618,17 @@ a {
 .setup-birthday .setup-btn-wrap {
   justify-content: flex-end;
 }
-.setup-birthday p label {
+.setup-birthday p label, .add-guests .inputs-wrap label {
     flex: 1 0 30%;
 }
 
-.setup-birthday p  input {
+.setup-birthday p  input, .inputs-wrap input {
     flex: 1 0 60%;
     padding: 10px;
     background: #fff;
 }
 
-.setup-birthday p input:focus {
+.setup-birthday p input:focus, .add-guests .inputs-wrap:focus {
       border: 1px solid #66afe9;
     outline: 0;
     /* -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6); */

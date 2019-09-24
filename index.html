@@ -21,10 +21,25 @@
      </nav>
   </header>
 
-  <section class="content-wrapper add-guests">
-  </div>
+  <section class="content-wrapper guests-page">
+   <form class="add-guests">
+     <div class="inputs-wrap">
+     <p>
+       <label for="name">Name</label>
+       <input type="text" id="name" required>
+      </p>
+     <p>
+       <label for="location">Location</label>
+       <input type="text" id="location" required>
+      </p>
+      </div>
+       <p class="addguests-btn-wrap">
+       <button class="add-guests-btn btn btn-primary" disabled>Add Guests</button>
+       </p>
+   </form> 
+  </section>
 </main>
-  <div class="row setupbirthday-page">
+  <div class="row setupbirthday-page hidden">
    <div class="logo">
       <h1>Birthday Guests Manager</h1>
    </div>
