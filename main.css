@@ -438,6 +438,16 @@ body {
     margin: 0 auto;
 }
 
+ul {
+  list-style: none;
+  padding:0;
+  margin: 0;
+}
+
+.active {
+   background: #0f3eb4;
+}
+
 .hidden {
   display: none;
 }
@@ -508,6 +518,52 @@ body {
 
 .icon-check {
   fill: green;
+}
+a {
+  color: #fff;
+  text-decoration: none
+}
+
+/* ===========================================================================
+    HEADER
+   ===========================================================================
+*/
+
+.header {
+  background: #1a4ed0;
+  width: 240px;
+  position: fixed;
+  top: 0;
+  height: 100%;
+}
+.header-logo {
+  line-height: 23px;
+  margin-top: 64px;
+  margin-left: 16px;
+}
+ .header-logo a {
+  font-size: 22px;
+  color: #fff;
+}
+
+.header .icon {
+  vertical-align: middle;
+  fill: #f3faff;
+  margin-right: 8px;
+  margin-left: 33px;
+}
+
+.header li a {
+  display: block;
+  width: 100%;
+  text-align: left;
+  /* padding-left: 37px; */
+  height: 33px;
+  line-height: 33px;
+}
+
+.header li a:hover {
+  background: #0f3eb4;
 }
 .setup-birthday {
     max-width: 400px;
