@@ -10,6 +10,7 @@ const formInputs = document.querySelectorAll('input');
 let isBirthdayFieldValid; let isExpectedGuestsFieldValid;
 let isNameFieldValid; let isLocationFieldValid;
 
+
 const fieldsData = {
   birthdayField: {
     regex: /20\d{2}-\d{2}-\d{2}/,
@@ -30,14 +31,17 @@ const fieldsData = {
 };
 
 const guests = {
-  addedGuests: [],
+  guestList: localStorage.getItem('items') 
+  ? JSON.parse(localStorage.getItem('items')): [],
   addGuests(name, location) {
-    this.addedGuests.push({
+    this.guestList.push({
       name,
       location,
     });
+    localStorage.setItem('items', JSON.stringify(this.guestList));
   },
 };
+
 
 const view = {
   createMessage(domPath, message) {
