@@ -1295,6 +1295,41 @@ a {
   }
 }
 
+/* ===========================================================================
+    Guest lists Table
+   ===========================================================================
+*/
+
+.guests-list {
+  background: #fff;
+  border-radius: 10px;
+  max-width: 881px;
+  width: 100%;
+  margin-top: 57px;
+}
+
+.guests-list thead th {
+  vertical-align: middle;
+  border-bottom: 2px solid #dee2e6
+}
+
+.table th, .table td {
+  padding: 16px;
+  text-align: left;
+}
+
+.table tbody tr {
+  border-top: 1px solid #dee2e6;
+}
+
+.table .date-table-data {
+  display: none;
+}
+@media screen and (min-width: 444px) {
+ .table .date-table-data {
+    display: block;
+  }
+}
 .setup-birthday {
     max-width: 400px;
     margin: 0 auto;
