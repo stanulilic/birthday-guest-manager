@@ -59,6 +59,14 @@ const guests = {
     localStorage.setItem('items', JSON.stringify(this.guestList));
     view.displayAddedGuest(guestData);
   },
+  deleteGuest(position) {
+    this.guestList.splice(position, 1);
+    localStorage.setItem('items', JSON.stringify(this.guestList));
+    while(tableBody.firstChild) {
+      tableBody.removeChild(tableBody.firstChild);
+    }
+    view.displayAllAddedGuests();
+  },
 };
 
 const view = {
