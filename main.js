@@ -12,7 +12,6 @@ const updateGuestsBtnWrapper = document.querySelector('.update-guests-wrap');
 const formInputs = document.querySelectorAll('input');
 const tableBody = document.querySelector('.guests-list tbody');
 let isBirthdayFieldValid; let isExpectedGuestsFieldValid;
-let isNameFieldValid; let isLocationFieldValid;
 
 
 const fieldsData = {
@@ -136,7 +135,7 @@ const view = {
       <tr id=${index}>
      <td>${guest.name}</td>
      <td>${guest.location}</td>
-     <td>${guest.dateAdded}</td> 
+     <td class="date-table-data">${guest.dateAdded}</td> 
      <td>
      <button class="btn btn-primary updateDetailsBtn">Update</button>
      <button class="btn btn-primary deleteBtn">Delete</button>
@@ -161,6 +160,7 @@ const view = {
   },
   showAddGuestsBtn() {
     addGuestsBtn.classList.remove('hidden');
+    addGuestsBtn.disabled = true;
     updateGuestsBtnWrapper.classList.add('hidden');
   },
   displayUpdateDetailsBtn(index) {
@@ -218,11 +218,11 @@ function validateInput(event) {
         parent, target, parentSibling, expectedGuestsField);
       break;
     case 'name':
-      isNameFieldValid = validators.runValidator(fieldsData.nameField, parent, target,
+      validators.runValidator(fieldsData.nameField, parent, target,
         parentSibling, nameField);
       break;
     case 'location':
-      isLocationFieldValid = validators.runValidator(fieldsData.locationField, parent, target,
+      validators.runValidator(fieldsData.locationField, parent, target,
         parentSibling, locationField);
       break;
     default:
@@ -231,11 +231,15 @@ function validateInput(event) {
   if (isBirthdayFieldValid && isExpectedGuestsFieldValid) {
     setUpBirthdayBtn.removeAttribute('disabled');
   }
-  if (isNameFieldValid && isLocationFieldValid) {
+  if (nameField.classList.contains('has-success') && locationField.classList.contains('has-success')) {
     addGuestsBtn.removeAttribute('disabled');
-    if (updateBtn) { updateBtn.removeAttribute('disabled') };
   } else {
     addGuestsBtn.disabled = true;
+  }
+  if (nameField.classList.contains('has-success') || locationField.classList.contains('has-success')) {
+    if (updateBtn) { updateBtn.removeAttribute('disabled') };
+  }
+  else { 
     if (updateBtn) { updateBtn.disabled = true; };
   }
 }

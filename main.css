@@ -1173,9 +1173,12 @@ ul {
 .btn {
   border-radius: 5px;
   border: 0;
-  background: #1a93f1;
   color: #fff;
   padding: 10px;
+}
+
+.btn-primary {
+  background: #1a93f1;
 }
 
 .icon {
