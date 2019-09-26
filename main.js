@@ -128,9 +128,6 @@ const view = {
     locationField.classList.remove('has-success');
     successIcons.forEach(icon => icon.classList.add('hidden'));
   },
-  changeGuestDetails(position) {
-    
-  },
   displayAddedGuest(guest, index) {
       const tableRow = `
       <tr id=${index}>
@@ -226,7 +223,7 @@ setUpBirthdayBtn.addEventListener('click', (e) => {
   e.preventDefault();
 });
 
-addGuestsBtn.addEventListener('click', function(e) {
+addGuestsBtn.addEventListener('click', (e) => {
   e.preventDefault();
   guests.addGuests(nameField.value, locationField.value);
   nameField.value = '';
@@ -237,13 +234,13 @@ addGuestsBtn.addEventListener('click', function(e) {
 
 // Event delegation to make delete and update buttons clickable
 tableBody.addEventListener('click', (e) => {
-  if(e.target.classList.contains('deleteBtn')){
+  if (e.target.classList.contains('deleteBtn')) {
     guests.deleteGuest(e.target.parentNode.parentNode.id);
   }
-  if(e.target.classList.contains('updateDetailsBtn')) {
+  if (e.target.classList.contains('updateDetailsBtn')) {
     view.changeGuestDetails(e.target.parentNode.parentNode.id);
   }
 })
 
-// display all added guests from local storage when page loads/refresh 
+// display all added guests from local storage when page loads/refresh
 view.displayAllAddedGuests();
