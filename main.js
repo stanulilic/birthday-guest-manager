@@ -56,8 +56,9 @@ const guests = {
       dateAdded: utils.getCurrentDate(),
     }
     this.guestList.push(guestData);
+    arrayIndex = this.guestList.indexOf(guestData);
     localStorage.setItem('items', JSON.stringify(this.guestList));
-    view.displayAddedGuest(guestData);
+    view.displayAddedGuest(guestData, arrayIndex);
   },
   deleteGuest(position) {
     this.guestList.splice(position, 1);
@@ -112,20 +113,22 @@ const view = {
     target.classList.add('has-error');
     target.classList.remove('has-success');
   },
-  displayAddedGuest(guest) {
-    // guests.guestList.forEach((guest) => {     
+  displayAddedGuest(guest, index) {
       const tableRow = `
-      <tr>
+      <tr id=${index}>
      <td>${guest.name}</td>
      <td>${guest.location}</td>
      <td>${guest.dateAdded}</td> 
+     <td>
+     <button class="btn btn-primary deleteBtn">Delete</button>
+     </td>
      </tr>
     `;
     tableBody.insertAdjacentHTML('beforeend', tableRow);
   },
   displayAllAddedGuests() {
-    guests.guestList.forEach((guest) => {     
-    this.displayAddedGuest(guest)
+    guests.guestList.forEach((guest, i) => {     
+    this.displayAddedGuest(guest, i);
   });
 },
 };
@@ -208,4 +211,12 @@ addGuestsBtn.addEventListener('click', (e) => {
   locationField.value = '';
 });
 
+// Event delegation to make delete and update buttons clickable
+tableBody.addEventListener('click', (e) => {
+  if(e.target.classList.contains('deleteBtn')){
+    guests.deleteGuest(e.target.parentNode.parentNode.id);
+  }
+})
+
+// display all added guests from local storage when page loads/refresh 
 view.displayAllAddedGuests();
