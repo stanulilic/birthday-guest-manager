@@ -30,19 +30,7 @@ const fieldsData = {
   },
 };
 
-const guests = {
-  guestList: localStorage.getItem('items') 
-    ? JSON.parse(localStorage.getItem('items')): [],
-  addGuests(name, location) {
-    this.guestList.push({
-      name,
-      location,
-      dateAdded: utils.getCurrentDate(),
-    });
-    localStorage.setItem('items', JSON.stringify(this.guestList));
-  },
-};
-
+/* Program Utilities */
 const utils = {
   months: ['January', 'February', 'March', 'April',
     'May', 'June', 'July', 'August', 
@@ -57,6 +45,18 @@ const utils = {
   },
 };
 
+const guests = {
+  guestList: localStorage.getItem('items') 
+    ? JSON.parse(localStorage.getItem('items')): [],
+  addGuests(name, location) {
+    this.guestList.push({
+      name,
+      location,
+      dateAdded: utils.getCurrentDate(),
+    });
+    localStorage.setItem('items', JSON.stringify(this.guestList));
+  },
+};
 
 const view = {
   createMessage(domPath, message) {
@@ -100,6 +100,18 @@ const view = {
     parent.querySelector('.icon-close-outline').classList.remove('hidden');
     target.classList.add('has-error');
     target.classList.remove('has-success');
+  },
+  displayAddedGuests() {
+    guests.guestList.forEach((guest) => {     
+      const tableRow = `
+      <tr>
+     <td>${guest.name}</td>
+     <td>${guest.location}</td>
+     <td>${guest.dateAdded}</td> 
+     </tr>
+    `;
+      console.log(tableRow);
+    });
   },
 };
 
