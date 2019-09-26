@@ -8,6 +8,7 @@ const locationField = document.getElementById('location');
 const successIcons = document.querySelectorAll('.add-guests .success');
 const addGuestsBtn = document.querySelector('.add-guests-btn');
 const addGuestsBtnWrapper = document.querySelector('.addguests-btn-wrap');
+const updateGuestsBtnWrapper = document.querySelector('.update-guests-wrap');
 const formInputs = document.querySelectorAll('input');
 const tableBody = document.querySelector('.guests-list tbody');
 let isBirthdayFieldValid; let isExpectedGuestsFieldValid;
@@ -162,10 +163,10 @@ const view = {
     <button class="update-guests-btn btn btn-primary" disabled>Update</button>
     <button class="cancel-btn btn btn-primary">Cancel</button>
     `;
-    while (addGuestsBtnWrapper.firstChild) {
-      addGuestsBtnWrapper.removeChild(addGuestsBtnWrapper.firstChild);
+    while (updateGuestsBtnWrapper.firstChild) {
+      updateGuestsBtnWrapper.removeChild(updateGuestsBtnWrapper.firstChild);
     }
-    addGuestsBtnWrapper.insertAdjacentHTML('beforeend', buttons);
+    updateGuestsBtnWrapper.insertAdjacentHTML('beforeend', buttons);
   },
 };
 
@@ -194,6 +195,7 @@ function validateInput(event) {
   const targetId = event.target.id;
   const parent = event.target.parentNode;
   const parentSibling = event.target.parentNode.nextElementSibling;
+  const updateBtn = updateGuestsBtnWrapper.querySelector('.update-guests-btn');
   switch (targetId) {
     case 'birthday-date':
       isBirthdayFieldValid = validators.runValidator(fieldsData.birthdayField, parent, target,
@@ -219,8 +221,10 @@ function validateInput(event) {
   }
   if (isNameFieldValid && isLocationFieldValid) {
     addGuestsBtn.removeAttribute('disabled');
+    if (updateBtn) { updateBtn.removeAttribute('disabled') };
   } else {
     addGuestsBtn.disabled = true;
+    if (updateBtn) { updateBtn.disabled = true; };
   }
 }
 
