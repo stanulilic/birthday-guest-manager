@@ -7,6 +7,7 @@ const nameField = document.getElementById('name');
 const locationField = document.getElementById('location');
 const successIcons = document.querySelectorAll('.add-guests .success');
 const addGuestsBtn = document.querySelector('.add-guests-btn');
+const addGuestsBtnWrapper = document.querySelector('.addguests-btn-wrap');
 const formInputs = document.querySelectorAll('input');
 const tableBody = document.querySelector('.guests-list tbody');
 let isBirthdayFieldValid; let isExpectedGuestsFieldValid;
@@ -16,11 +17,11 @@ let isNameFieldValid; let isLocationFieldValid;
 const fieldsData = {
   birthdayField: {
     regex: /20\d{2}-\d{2}-\d{2}/,
-    message: 'Please enter date with a valid format: mm/dd/yyyy'
+    message: 'Please enter date with a valid format: mm/dd/yyyy',
   },
   expectedGuestsField: {
     regex: /[1-9]{1,}/,
-    message: 'Please enter a number or digit only'
+    message: 'Please enter a number or digit only',
   },
   nameField: {
     regex: /^[ \u00c0-\u01ffa-zA-Z'\-]+$/,
@@ -35,7 +36,7 @@ const fieldsData = {
 /* Program Utilities */
 const utils = {
   months: ['January', 'February', 'March', 'April',
-    'May', 'June', 'July', 'August', 
+    'May', 'June', 'July', 'August',
     'September', 'October', 'November', 'December'],
   getCurrentDate() {
     const date = new Date();
@@ -48,32 +49,33 @@ const utils = {
 };
 
 const guests = {
-  guestList: localStorage.getItem('items') 
-    ? JSON.parse(localStorage.getItem('items')): [],
+  guestList: localStorage.getItem('items')
+    ? JSON.parse(localStorage.getItem('items')) : [],
   addGuests(name, location) {
     const guestData = {
       name,
       location,
       dateAdded: utils.getCurrentDate(),
-    }
+    };
     this.guestList.push(guestData);
-    arrayIndex = this.guestList.indexOf(guestData);
+    const arrayIndex = this.guestList.indexOf(guestData);
     localStorage.setItem('items', JSON.stringify(this.guestList));
     view.displayAddedGuest(guestData, arrayIndex);
   },
   deleteGuest(position) {
     this.guestList.splice(position, 1);
     localStorage.setItem('items', JSON.stringify(this.guestList));
-    while(tableBody.firstChild) {
+    while (tableBody.firstChild) {
       tableBody.removeChild(tableBody.firstChild);
     }
     view.displayAllAddedGuests();
   },
   changeGuestDetails(position, name, location) {
+    // eslint-disable-next-line keyword-spacing
     if(name) {
-    this.guestList[position].name = name;
+      this.guestList[position].name = name;
     }
-    if(location) {
+    if (location) {
       this.guestList[position].location = location;
     }
     localStorage.setItem('items', JSON.stringify(this.guestList));
@@ -126,10 +128,10 @@ const view = {
   clearSuccessFormStyles() {
     nameField.classList.remove('has-success');
     locationField.classList.remove('has-success');
-    successIcons.forEach(icon => icon.classList.add('hidden'));
+    successIcons.forEach((icon) => icon.classList.add('hidden'));
   },
   displayAddedGuest(guest, index) {
-      const tableRow = `
+    const tableRow = `
       <tr id=${index}>
      <td>${guest.name}</td>
      <td>${guest.location}</td>
@@ -143,10 +145,28 @@ const view = {
     tableBody.insertAdjacentHTML('beforeend', tableRow);
   },
   displayAllAddedGuests() {
-    guests.guestList.forEach((guest, i) => {     
-    this.displayAddedGuest(guest, i);
-  });
-},
+    guests.guestList.forEach((guest, i) => {
+      this.displayAddedGuest(guest, i);
+    });
+  },
+  loadFormWithGuestData(position) {
+    const guest = guests.guestList[position];
+    nameField.value = guest.name;
+    locationField.value = guest.location;
+  },
+  removeAddGuestsBtn() {
+    addGuestsBtn.classList.add('hidden');
+  },
+  displayUpdateDetailsBtn() {
+    const buttons = `
+    <button class="update-guests-btn btn btn-primary" disabled>Update</button>
+    <button class="cancel-btn btn btn-primary">Cancel</button>
+    `;
+    while (addGuestsBtnWrapper.firstChild) {
+      addGuestsBtnWrapper.removeChild(addGuestsBtnWrapper.firstChild);
+    }
+    addGuestsBtnWrapper.insertAdjacentHTML('beforeend', buttons);
+  },
 };
 
 const validators = {
@@ -163,9 +183,8 @@ const validators = {
     if (validate) {
       view.showInputIsValid(parent, target, parentSibling);
       return true;
-    } 
+    }
     view.showInputIsInvalid(parent, target, parentSibling, message);
-    
   },
 };
 
@@ -181,8 +200,8 @@ function validateInput(event) {
         parentSibling, birthdayDateField);
       break;
     case 'expected-guests':
-      isExpectedGuestsFieldValid = validators.runValidator(fieldsData.expectedGuestsField, parent, target,
-        parentSibling, expectedGuestsField);
+      isExpectedGuestsFieldValid = validators.runValidator(fieldsData.expectedGuestsField,
+        parent, target, parentSibling, expectedGuestsField);
       break;
     case 'name':
       isNameFieldValid = validators.runValidator(fieldsData.nameField, parent, target,
@@ -200,11 +219,9 @@ function validateInput(event) {
   }
   if (isNameFieldValid && isLocationFieldValid) {
     addGuestsBtn.removeAttribute('disabled');
-  }
-  else {
+  } else {
     addGuestsBtn.disabled = true;
   }
-
 }
 
 const eventsList = ['input', 'blur'];
@@ -214,9 +231,7 @@ formInputs.forEach(inputField => {
     inputField.addEventListener(event, function(e) {
       validateInput(e);
     });
-
   }
-
 });
 
 setUpBirthdayBtn.addEventListener('click', (e) => {
@@ -238,9 +253,11 @@ tableBody.addEventListener('click', (e) => {
     guests.deleteGuest(e.target.parentNode.parentNode.id);
   }
   if (e.target.classList.contains('updateDetailsBtn')) {
-    view.changeGuestDetails(e.target.parentNode.parentNode.id);
+    view.loadFormWithGuestData(e.target.parentNode.parentNode.id);
+    view.removeAddGuestsBtn();
+    view.displayUpdateDetailsBtn();
   }
-})
+});
 
 // display all added guests from local storage when page loads/refresh
 view.displayAllAddedGuests();
