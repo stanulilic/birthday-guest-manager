@@ -238,13 +238,16 @@ setUpBirthdayBtn.addEventListener('click', (e) => {
   e.preventDefault();
 });
 
-addGuestsBtn.addEventListener('click', (e) => {
+// add event listener to parent element of add guests btn
+addGuestsBtnWrapper.addEventListener('click', (e) => {
   e.preventDefault();
-  guests.addGuests(nameField.value, locationField.value);
-  nameField.value = '';
-  locationField.value = '';
-  e.target.disabled = true;
-  view.clearSuccessFormStyles();
+  if (e.target.classList.contains('add-guests-btn')) {
+    guests.addGuests(nameField.value, locationField.value);
+    nameField.value = '';
+    locationField.value = '';
+    e.target.disabled = true;
+    view.clearSuccessFormStyles();
+  }
 });
 
 // Event delegation to make delete and update buttons clickable
