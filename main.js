@@ -5,6 +5,7 @@ const setupBirthdayForm = document.querySelector('.setup-birthday');
 const setUpBirthdayBtn = document.querySelector('.setup-birthday-btn');
 const nameField = document.getElementById('name');
 const locationField = document.getElementById('location');
+const successIcons = document.querySelectorAll('.add-guests .success');
 const addGuestsBtn = document.querySelector('.add-guests-btn');
 const formInputs = document.querySelectorAll('input');
 const tableBody = document.querySelector('.guests-list tbody');
@@ -113,6 +114,11 @@ const view = {
     target.classList.add('has-error');
     target.classList.remove('has-success');
   },
+  clearSuccessFormStyles() {
+    nameField.classList.remove('has-success');
+    locationField.classList.remove('has-success');
+    successIcons.forEach(icon => icon.classList.add('hidden'));
+  },
   displayAddedGuest(guest, index) {
       const tableRow = `
       <tr id=${index}>
@@ -185,6 +191,9 @@ function validateInput(event) {
   if (isNameFieldValid && isLocationFieldValid) {
     addGuestsBtn.removeAttribute('disabled');
   }
+  else {
+    addGuestsBtn.disabled = true;
+  }
 
 }
 
@@ -204,11 +213,13 @@ setUpBirthdayBtn.addEventListener('click', (e) => {
   e.preventDefault();
 });
 
-addGuestsBtn.addEventListener('click', (e) => {
+addGuestsBtn.addEventListener('click', function(e) {
   e.preventDefault();
   guests.addGuests(nameField.value, locationField.value);
   nameField.value = '';
   locationField.value = '';
+  e.target.disabled = true;
+  view.clearSuccessFormStyles();
 });
 
 // Event delegation to make delete and update buttons clickable

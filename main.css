@@ -1420,7 +1420,7 @@ button[disabled] {
   margin-top: 35px;
 }
 
-button[disabled] {
+button[disabled=true] {
   background: grey;
 }
 @media screen and (min-width: 318px) {
