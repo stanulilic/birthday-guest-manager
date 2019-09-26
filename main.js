@@ -157,16 +157,28 @@ const view = {
   },
   removeAddGuestsBtn() {
     addGuestsBtn.classList.add('hidden');
+    updateGuestsBtnWrapper.classList.remove('hidden');
   },
-  displayUpdateDetailsBtn() {
+  showAddGuestsBtn() {
+    addGuestsBtn.classList.remove('hidden');
+    updateGuestsBtnWrapper.classList.add('hidden');
+  },
+  displayUpdateDetailsBtn(index) {
     const buttons = `
-    <button class="update-guests-btn btn btn-primary" disabled>Update</button>
+    <button class="update-guests-btn btn btn-primary" disabled id=${index}>Update</button>
     <button class="cancel-btn btn btn-primary">Cancel</button>
     `;
     while (updateGuestsBtnWrapper.firstChild) {
       updateGuestsBtnWrapper.removeChild(updateGuestsBtnWrapper.firstChild);
     }
     updateGuestsBtnWrapper.insertAdjacentHTML('beforeend', buttons);
+  },
+  changeGuestDetails(position, name, location) {
+    guests.changeGuestDetails(position, name, location);
+    while (tableBody.firstChild) {
+      tableBody.removeChild(tableBody.firstChild);
+    }
+    view.displayAllAddedGuests();
   },
 };
 
@@ -254,6 +266,18 @@ addGuestsBtnWrapper.addEventListener('click', (e) => {
   }
 });
 
+updateGuestsBtnWrapper.addEventListener('click', (e) => {
+  e.preventDefault();
+  if(e.target.classList.contains('update-guests-btn')) {
+    view.changeGuestDetails(e.target.id, nameField.value, locationField.value);
+    nameField.value = '';
+    locationField.value = '';
+    view.clearSuccessFormStyles();
+    view.showAddGuestsBtn();
+  }
+
+});
+
 // Event delegation to make delete and update buttons clickable
 tableBody.addEventListener('click', (e) => {
   if (e.target.classList.contains('deleteBtn')) {
@@ -262,7 +286,7 @@ tableBody.addEventListener('click', (e) => {
   if (e.target.classList.contains('updateDetailsBtn')) {
     view.loadFormWithGuestData(e.target.parentNode.parentNode.id);
     view.removeAddGuestsBtn();
-    view.displayUpdateDetailsBtn();
+    view.displayUpdateDetailsBtn(e.target.parentNode.parentNode.id);
   }
 });
 
