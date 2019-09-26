@@ -1325,6 +1325,10 @@ a {
 .table .date-table-data {
   display: none;
 }
+
+.table td.date-table-data {
+  padding:26px 16px;
+}
 @media screen and (min-width: 444px) {
  .table .date-table-data {
     display: block;

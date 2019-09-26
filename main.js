@@ -32,13 +32,28 @@ const fieldsData = {
 
 const guests = {
   guestList: localStorage.getItem('items') 
-  ? JSON.parse(localStorage.getItem('items')): [],
+    ? JSON.parse(localStorage.getItem('items')): [],
   addGuests(name, location) {
     this.guestList.push({
       name,
       location,
+      dateAdded: utils.getCurrentDate(),
     });
     localStorage.setItem('items', JSON.stringify(this.guestList));
+  },
+};
+
+const utils = {
+  months: ['January', 'February', 'March', 'April',
+    'May', 'June', 'July', 'August', 
+    'September', 'October', 'November', 'December'],
+  getCurrentDate() {
+    const date = new Date();
+    const month = this.months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const dateToday = `${day} ${month} ${year}`;
+    return dateToday;
   },
 };
 
