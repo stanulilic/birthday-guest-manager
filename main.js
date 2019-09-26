@@ -7,6 +7,7 @@ const nameField = document.getElementById('name');
 const locationField = document.getElementById('location');
 const addGuestsBtn = document.querySelector('.add-guests-btn');
 const formInputs = document.querySelectorAll('input');
+const tableBody = document.querySelector('.guests-list tbody');
 let isBirthdayFieldValid; let isExpectedGuestsFieldValid;
 let isNameFieldValid; let isLocationFieldValid;
 
@@ -49,12 +50,14 @@ const guests = {
   guestList: localStorage.getItem('items') 
     ? JSON.parse(localStorage.getItem('items')): [],
   addGuests(name, location) {
-    this.guestList.push({
+    const guestData = {
       name,
       location,
       dateAdded: utils.getCurrentDate(),
-    });
+    }
+    this.guestList.push(guestData);
     localStorage.setItem('items', JSON.stringify(this.guestList));
+    view.displayAddedGuest(guestData);
   },
 };
 
@@ -101,8 +104,8 @@ const view = {
     target.classList.add('has-error');
     target.classList.remove('has-success');
   },
-  displayAddedGuests() {
-    guests.guestList.forEach((guest) => {     
+  displayAddedGuest(guest) {
+    // guests.guestList.forEach((guest) => {     
       const tableRow = `
       <tr>
      <td>${guest.name}</td>
@@ -110,9 +113,13 @@ const view = {
      <td>${guest.dateAdded}</td> 
      </tr>
     `;
-      console.log(tableRow);
-    });
+    tableBody.insertAdjacentHTML('beforeend', tableRow);
   },
+  displayAllAddedGuests() {
+    guests.guestList.forEach((guest) => {     
+    this.displayAddedGuest(guest)
+  });
+},
 };
 
 const validators = {
@@ -192,3 +199,5 @@ addGuestsBtn.addEventListener('click', (e) => {
   nameField.value = '';
   locationField.value = '';
 });
+
+view.displayAllAddedGuests();
