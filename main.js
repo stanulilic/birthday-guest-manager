@@ -69,6 +69,15 @@ const guests = {
     }
     view.displayAllAddedGuests();
   },
+  changeGuestDetails(position, name, location) {
+    if(name) {
+    this.guestList[position].name = name;
+    }
+    if(location) {
+      this.guestList[position].location = location;
+    }
+    localStorage.setItem('items', JSON.stringify(this.guestList));
+  },
 };
 
 const view = {
@@ -119,6 +128,9 @@ const view = {
     locationField.classList.remove('has-success');
     successIcons.forEach(icon => icon.classList.add('hidden'));
   },
+  changeGuestDetails(position) {
+    
+  },
   displayAddedGuest(guest, index) {
       const tableRow = `
       <tr id=${index}>
@@ -126,6 +138,7 @@ const view = {
      <td>${guest.location}</td>
      <td>${guest.dateAdded}</td> 
      <td>
+     <button class="btn btn-primary updateDetailsBtn">Update</button>
      <button class="btn btn-primary deleteBtn">Delete</button>
      </td>
      </tr>
@@ -226,6 +239,9 @@ addGuestsBtn.addEventListener('click', function(e) {
 tableBody.addEventListener('click', (e) => {
   if(e.target.classList.contains('deleteBtn')){
     guests.deleteGuest(e.target.parentNode.parentNode.id);
+  }
+  if(e.target.classList.contains('updateDetailsBtn')) {
+    view.changeGuestDetails(e.target.parentNode.parentNode.id);
   }
 })
 
