@@ -5,6 +5,7 @@ const setupBirthdayForm = document.querySelector('.setup-birthday');
 const setupBirthdaySection = document.querySelector('.setup-birthday-section');
 const setUpBirthdayBtn = document.querySelector('.setup-birthday-btn');
 const mainContent = document.querySelector('.main-content');
+const summaryWrapper = document.querySelector('.summary-wrapper');
 const nameField = document.getElementById('name');
 const locationField = document.getElementById('location');
 const successIcons = document.querySelectorAll('.add-guests .success');
@@ -185,6 +186,23 @@ const view = {
     }
     view.displayAllAddedGuests();
   },
+  displaySummaryColumns(expectedGuests, guestsAdded) {
+    const columns = `
+      <div class="summary expected-guests-col card">
+       <h2>${expectedGuests}</h2>
+       <p>guests expected</p>
+      </div>
+      <div class="summary guests-added-col card">
+       <h2>${guestsAdded}</h2>
+       <p>guests added</p>
+      </div>
+      <div class="summary days-remaining-col card">
+       <h2>35</h2>
+       <p>days to go</p>
+      </div>
+    `;
+    summaryWrapper.insertAdjacentHTML('beforeend', columns);
+  },
 };
 
 const validators = {
@@ -316,3 +334,4 @@ tableBody.addEventListener('click', (e) => {
 
 // display all added guests from local storage when page loads/refresh
 view.displayAllAddedGuests();
+view.displaySummaryColumns(birthdayEventSet.expectedGuests, guests.guestList.length);
