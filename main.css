@@ -1226,6 +1226,12 @@ a {
   flex-direction: row;
 }
 
+@supports (display:grid) {
+  .main-content{
+     display: grid;
+    grid-template-columns: 250px 1fr;
+  }
+}
 .sidebar  {
   flex-basis: 240px;
   margin-right: 26px;
