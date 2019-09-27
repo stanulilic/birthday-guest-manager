@@ -52,6 +52,19 @@ const utils = {
     const dateToday = `${day} ${month} ${year}`;
     return dateToday;
   },
+  getCurrentDateAndTime() {
+    return new Date();
+  },
+  parseDate(dateStr) {
+    const ymd = dateStr.split('-');
+    return new Date(ymd[0], ymd[1] - 1, ymd[2]);
+  },
+  dateDifference() {
+    const birthdayDate = this.parseDate(birthdayEventSet.birthdayDate);
+    // Take the difference between the dates and divide by milliseconds per day.
+    // Round to nearest whole number to deal with DST.
+    return Math.round(Math.abs(birthdayDate - this.getCurrentDateAndTime()) / (1000 * 60 * 60 * 24));
+  },
 };
 
 const guests = {
@@ -197,7 +210,7 @@ const view = {
        <p>guests added</p>
       </div>
       <div class="summary days-remaining-col card">
-       <h2>35</h2>
+       <h2>${utils.dateDifference()}</h2>
        <p>days to go</p>
       </div>
     `;
