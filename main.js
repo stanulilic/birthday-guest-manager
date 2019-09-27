@@ -137,8 +137,8 @@ const view = {
      <td>${guest.location}</td>
      <td class="date-table-data">${guest.dateAdded}</td> 
      <td>
-     <button class="btn btn-primary updateDetailsBtn">Update</button>
-     <button class="btn btn-primary deleteBtn">Delete</button>
+     <button class="btn btn-secondary updateDetailsBtn">Update</button>
+     <button class="btn btn-secondary-warning deleteBtn">Delete</button>
      </td>
      </tr>
     `;
@@ -166,7 +166,7 @@ const view = {
   displayUpdateDetailsBtn(index) {
     const buttons = `
     <button class="update-guests-btn btn btn-primary" disabled id=${index}>Update</button>
-    <button class="cancel-btn btn btn-primary">Cancel</button>
+    <button class="cancel-btn btn btn-secondary">Cancel</button>
     `;
     while (updateGuestsBtnWrapper.firstChild) {
       updateGuestsBtnWrapper.removeChild(updateGuestsBtnWrapper.firstChild);
@@ -278,6 +278,12 @@ updateGuestsBtnWrapper.addEventListener('click', (e) => {
     locationField.value = '';
     view.clearSuccessFormStyles();
     view.showAddGuestsBtn();
+  }
+  if(e.target.classList.contains('cancel-btn')) {
+    nameField.value = '';
+    locationField.value = '';
+    view.showAddGuestsBtn();
+    view.clearSuccessFormStyles();
   }
 
 });

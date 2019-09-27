@@ -1181,6 +1181,18 @@ ul {
   background: #1a93f1;
 }
 
+.btn-secondary {
+  background: none;
+  border:1px solid #1a93f1;
+  color: #6d6d6d;
+}
+
+.btn-secondary-warning {
+  border: 1px solid #a94442;
+  background: none;
+  color: #a94442;
+}
+
 .icon {
     width: 20px;
     height: 20px;
