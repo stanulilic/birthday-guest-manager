@@ -2,7 +2,9 @@
 const birthdayDateField = document.getElementById('birthday-date');
 const expectedGuestsField = document.getElementById('expected-guests');
 const setupBirthdayForm = document.querySelector('.setup-birthday');
+const setupBirthdaySection = document.querySelector('.setup-birthday-section');
 const setUpBirthdayBtn = document.querySelector('.setup-birthday-btn');
+const mainContent = document.querySelector('.main-content');
 const nameField = document.getElementById('name');
 const locationField = document.getElementById('location');
 const successIcons = document.querySelectorAll('.add-guests .success');
@@ -12,6 +14,9 @@ const updateGuestsBtnWrapper = document.querySelector('.update-guests-wrap');
 const formInputs = document.querySelectorAll('input');
 const tableBody = document.querySelector('.guests-list tbody');
 let isBirthdayFieldValid; let isExpectedGuestsFieldValid;
+
+const birthdayEventSet = localStorage.getItem('eventSet') 
+? JSON.parse(localStorage.getItem('eventSet')) : {};
 
 
 const fieldsData = {
@@ -254,8 +259,17 @@ formInputs.forEach(inputField => {
   }
 });
 
+if(birthdayEventSet.hasOwnProperty('birthdayDate')) {
+  setupBirthdaySection.classList.add('hidden');
+  mainContent.classList.remove('hidden');
+}
 setUpBirthdayBtn.addEventListener('click', (e) => {
   e.preventDefault();
+  birthdayEventSet.birthdayDate = birthdayDateField.value;
+  birthdayEventSet.expectedGuests = expectedGuestsField.value;
+  localStorage.setItem('eventSet', JSON.stringify(birthdayEventSet));
+  setupBirthdaySection.classList.add('hidden');
+  mainContent.classList.remove('hidden');
 });
 
 // add event listener to parent element of add guests btn
