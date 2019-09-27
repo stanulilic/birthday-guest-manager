@@ -860,6 +860,7 @@ a {
 .home-section {
   display: flex;
   max-width: 1050px;
+  flex-wrap: wrap;
 }
 
 .event-info {
@@ -873,7 +874,7 @@ a {
 
 .summary-wrapper {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 .home-section .card {
   border-radius: 10px;
@@ -884,6 +885,8 @@ a {
 
 .home-section .summary {
   text-align: center;
+  flex-basis: 159px;
+  margin-right: 9px;
 }
 
 .home-section .summary h2 {
