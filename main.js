@@ -1,61 +1,62 @@
+/* eslint-disable indent */
 // https://codepen.io/jaycbrf/pen/iBszr
-const birthdayDateField = document.getElementById("birthday-date");
-const expectedGuestsField = document.getElementById("expected-guests");
-const setupBirthdayForm = document.querySelector(".setup-birthday");
-const setupBirthdaySection = document.querySelector(".setup-birthday-section");
-const setUpBirthdayBtn = document.querySelector(".setup-birthday-btn");
-const mainContent = document.querySelector(".main-content");
-const homeSection = document.querySelector(".home-section");
-const summaryWrapper = document.querySelector(".summary-wrapper");
-const nameField = document.getElementById("name");
-const locationField = document.getElementById("location");
-const successIcons = document.querySelectorAll(".add-guests .success");
-const addGuestsBtn = document.querySelector(".add-guests-btn");
-const addGuestsBtnWrapper = document.querySelector(".addguests-btn-wrap");
-const updateGuestsBtnWrapper = document.querySelector(".update-guests-wrap");
-const formInputs = document.querySelectorAll("input");
-const tableBody = document.querySelector(".guests-list tbody");
+const birthdayDateField = document.getElementById('birthday-date');
+const expectedGuestsField = document.getElementById('expected-guests');
+const setupBirthdayForm = document.querySelector('.setup-birthday');
+const setupBirthdaySection = document.querySelector('.setup-birthday-section');
+const setUpBirthdayBtn = document.querySelector('.setup-birthday-btn');
+const mainContent = document.querySelector('.main-content');
+const homeSection = document.querySelector('.home-section');
+const summaryWrapper = document.querySelector('.summary-wrapper');
+const nameField = document.getElementById('name');
+const locationField = document.getElementById('location');
+const successIcons = document.querySelectorAll('.add-guests .success');
+const addGuestsBtn = document.querySelector('.add-guests-btn');
+const addGuestsBtnWrapper = document.querySelector('.addguests-btn-wrap');
+const updateGuestsBtnWrapper = document.querySelector('.update-guests-wrap');
+const formInputs = document.querySelectorAll('input');
+const tableBody = document.querySelector('.guests-list tbody');
 let isBirthdayFieldValid;
 let isExpectedGuestsFieldValid;
 
-const birthdayEventSet = localStorage.getItem("eventSet")
-  ? JSON.parse(localStorage.getItem("eventSet"))
+const birthdayEventSet = localStorage.getItem('eventSet')
+  ? JSON.parse(localStorage.getItem('eventSet'))
   : {};
 
 const fieldsData = {
   birthdayField: {
     regex: /20\d{2}-\d{2}-\d{2}/,
-    message: "Please enter date with a valid format: mm/dd/yyyy"
+    message: 'Please enter date with a valid format: mm/dd/yyyy'
   },
   expectedGuestsField: {
     regex: /[1-9]{1,}/,
-    message: "Please enter a number or digit only"
+    message: 'Please enter a number or digit only'
   },
   nameField: {
     regex: /^[ \u00c0-\u01ffa-zA-Z'\-]+$/,
-    message: "Please enter a real name"
+    message: 'Please enter a real name'
   },
   locationField: {
     regex: /^[ \u00c0-\u01ffa-zA-Z'\-]+$/,
-    message: "Please enter a valid location of the guest"
+    message: 'Please enter a valid location of the guest'
   }
 };
 
 /* Program Utilities */
 const utils = {
   months: [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
   ],
   getCurrentDate() {
     const date = new Date();
@@ -69,7 +70,7 @@ const utils = {
     return new Date();
   },
   parseDate(dateStr) {
-    const ymd = dateStr.split("-");
+    const ymd = dateStr.split('-');
     return new Date(ymd[0], ymd[1] - 1, ymd[2]);
   },
   dateDifference() {
@@ -86,8 +87,8 @@ const utils = {
 };
 
 const guests = {
-  guestList: localStorage.getItem("items")
-    ? JSON.parse(localStorage.getItem("items"))
+  guestList: localStorage.getItem('items')
+    ? JSON.parse(localStorage.getItem('items'))
     : [],
   addGuests(name, location) {
     const guestData = {
@@ -97,12 +98,12 @@ const guests = {
     };
     this.guestList.push(guestData);
     const arrayIndex = this.guestList.indexOf(guestData);
-    localStorage.setItem("items", JSON.stringify(this.guestList));
+    localStorage.setItem('items', JSON.stringify(this.guestList));
     view.displayAddedGuest(guestData, arrayIndex);
   },
   deleteGuest(position) {
     this.guestList.splice(position, 1);
-    localStorage.setItem("items", JSON.stringify(this.guestList));
+    localStorage.setItem('items', JSON.stringify(this.guestList));
     while (tableBody.firstChild) {
       tableBody.removeChild(tableBody.firstChild);
     }
@@ -116,20 +117,30 @@ const guests = {
     if (location) {
       this.guestList[position].location = location;
     }
-    localStorage.setItem("items", JSON.stringify(this.guestList));
+    localStorage.setItem('items', JSON.stringify(this.guestList));
   }
 };
 
 const view = {
+  ctx: document.getElementById('mybarChart'),
+   ctx2: document.getElementById('mypieChart'),
+
+  guestsArray: [
+  parseInt(birthdayEventSet.expectedGuests),
+  guests.guestList.length
+  ],
+
+  labels: ['Expected Guests', 'Added Guests'],
+
   createMessage(domPath, message) {
-    const paragraph = document.createElement("p");
+    const paragraph = document.createElement('p');
     paragraph.textContent = message;
-    paragraph.className = "error";
-    domPath.insertAdjacentElement("afterend", paragraph);
+    paragraph.className = 'error';
+    domPath.insertAdjacentElement('afterend', paragraph);
   },
 
   checkIfErrorMessageExists(parentSibling) {
-    if (parentSibling && parentSibling.className === "error") {
+    if (parentSibling && parentSibling.className === 'error') {
       return true;
     }
     return false;
@@ -144,12 +155,12 @@ const view = {
   showInputIsValid(parent, target, parentSibling) {
     this.removeErrorMessage(parentSibling);
     // show checkmark icon
-    parent.querySelector(".icon-checkmark-outline").classList.remove("hidden");
-    target.classList.add("has-success");
+    parent.querySelector('.icon-checkmark-outline').classList.remove('hidden');
+    target.classList.add('has-success');
     // remove close/error icon
-    parent.querySelector(".icon-close-outline").classList.add("hidden");
+    parent.querySelector('.icon-close-outline').classList.add('hidden');
     // remove error outline
-    target.classList.remove("has-error");
+    target.classList.remove('has-error');
   },
 
   showInputIsInvalid(parent, target, parentSibling, message) {
@@ -157,16 +168,16 @@ const view = {
       this.createMessage(parent, message);
     }
     // hide error/checkmark icon
-    parent.querySelector(".icon-checkmark-outline").classList.add("hidden");
+    parent.querySelector('.icon-checkmark-outline').classList.add('hidden');
     // show error icon
-    parent.querySelector(".icon-close-outline").classList.remove("hidden");
-    target.classList.add("has-error");
-    target.classList.remove("has-success");
+    parent.querySelector('.icon-close-outline').classList.remove('hidden');
+    target.classList.add('has-error');
+    target.classList.remove('has-success');
   },
   clearSuccessFormStyles() {
-    nameField.classList.remove("has-success");
-    locationField.classList.remove("has-success");
-    successIcons.forEach(icon => icon.classList.add("hidden"));
+    nameField.classList.remove('has-success');
+    locationField.classList.remove('has-success');
+    successIcons.forEach(icon => icon.classList.add('hidden'));
   },
   displayAddedGuest(guest, index) {
     const tableRow = `
@@ -180,7 +191,7 @@ const view = {
      </td>
      </tr>
     `;
-    tableBody.insertAdjacentHTML("beforeend", tableRow);
+    tableBody.insertAdjacentHTML('beforeend', tableRow);
   },
   displayAllAddedGuests() {
     guests.guestList.forEach((guest, i) => {
@@ -193,13 +204,13 @@ const view = {
     locationField.value = guest.location;
   },
   removeAddGuestsBtn() {
-    addGuestsBtn.classList.add("hidden");
-    updateGuestsBtnWrapper.classList.remove("hidden");
+    addGuestsBtn.classList.add('hidden');
+    updateGuestsBtnWrapper.classList.remove('hidden');
   },
   showAddGuestsBtn() {
-    addGuestsBtn.classList.remove("hidden");
+    addGuestsBtn.classList.remove('hidden');
     addGuestsBtn.disabled = true;
-    updateGuestsBtnWrapper.classList.add("hidden");
+    updateGuestsBtnWrapper.classList.add('hidden');
   },
   displayUpdateDetailsBtn(index) {
     const buttons = `
@@ -209,7 +220,7 @@ const view = {
     while (updateGuestsBtnWrapper.firstChild) {
       updateGuestsBtnWrapper.removeChild(updateGuestsBtnWrapper.firstChild);
     }
-    updateGuestsBtnWrapper.insertAdjacentHTML("beforeend", buttons);
+    updateGuestsBtnWrapper.insertAdjacentHTML('beforeend', buttons);
   },
   changeGuestDetails(position, name, location) {
     guests.changeGuestDetails(position, name, location);
@@ -233,8 +244,62 @@ const view = {
        <p>days to go</p>
       </div>
     `;
-    summaryWrapper.insertAdjacentHTML("beforeend", columns);
-  }
+    summaryWrapper.insertAdjacentHTML('beforeend', columns);
+  },
+  showHomeSection() {
+  this.guestsArray =  [
+  parseInt(birthdayEventSet.expectedGuests),
+  guests.guestList.length
+  ];
+    mainContent.classList.remove('hidden');
+    homeSection.classList.remove('hidden');
+    view.displayAllAddedGuests();
+    view.displaySummaryColumns(
+      birthdayEventSet.expectedGuests,
+      guests.guestList.length
+);
+  // show bar and pie chart
+  this.createBarChart();
+  this.createPieChart();
+  },
+createBarChart() {
+  return new Chart(this.ctx, {
+  type: 'bar',
+  data: {
+    labels: this.labels,
+    datasets: [
+      {
+        label: 'guests',
+        data: this.guestsArray,
+        backgroundColor: [
+          'rgba(26, 78, 208, .4)',
+           'rgba(255, 206, 86, 0.4)',
+            'rgba(75, 192, 192, 0.2)',
+        ],
+      },
+    ],
+  },
+});
+},
+createPieChart() {
+  return new Chart(this.ctx2, {
+  type: 'pie',
+  data: {
+    labels: this.labels,
+    datasets: [
+      {
+        label: 'guests',
+        data: this.guestsArray,
+        backgroundColor: [
+          'rgba(26, 78, 208, .4)',
+           'rgba(255, 206, 86, 0.4)',
+            'rgba(75, 192, 192, 0.2)',
+        ],
+      },
+    ],
+  },
+});
+},
 };
 
 const validators = {
@@ -261,9 +326,9 @@ function validateInput(event) {
   const targetId = event.target.id;
   const parent = event.target.parentNode;
   const parentSibling = event.target.parentNode.nextElementSibling;
-  const updateBtn = updateGuestsBtnWrapper.querySelector(".update-guests-btn");
+  const updateBtn = updateGuestsBtnWrapper.querySelector('.update-guests-btn');
   switch (targetId) {
-    case "birthday-date":
+    case 'birthday-date':
       isBirthdayFieldValid = validators.runValidator(
         fieldsData.birthdayField,
         parent,
@@ -272,7 +337,7 @@ function validateInput(event) {
         birthdayDateField
       );
       break;
-    case "expected-guests":
+    case 'expected-guests':
       isExpectedGuestsFieldValid = validators.runValidator(
         fieldsData.expectedGuestsField,
         parent,
@@ -281,7 +346,7 @@ function validateInput(event) {
         expectedGuestsField
       );
       break;
-    case "name":
+    case 'name':
       validators.runValidator(
         fieldsData.nameField,
         parent,
@@ -290,7 +355,7 @@ function validateInput(event) {
         nameField
       );
       break;
-    case "location":
+    case 'location':
       validators.runValidator(
         fieldsData.locationField,
         parent,
@@ -303,22 +368,22 @@ function validateInput(event) {
       break;
   }
   if (isBirthdayFieldValid && isExpectedGuestsFieldValid) {
-    setUpBirthdayBtn.removeAttribute("disabled");
+    setUpBirthdayBtn.removeAttribute('disabled');
   }
   if (
-    nameField.classList.contains("has-success") &&
-    locationField.classList.contains("has-success")
+    nameField.classList.contains('has-success') &&
+    locationField.classList.contains('has-success')
   ) {
-    addGuestsBtn.removeAttribute("disabled");
+    addGuestsBtn.removeAttribute('disabled');
   } else {
     addGuestsBtn.disabled = true;
   }
   if (
-    nameField.classList.contains("has-success") ||
-    locationField.classList.contains("has-success")
+    nameField.classList.contains('has-success') ||
+    locationField.classList.contains('has-success')
   ) {
     if (updateBtn) {
-      updateBtn.removeAttribute("disabled");
+      updateBtn.removeAttribute('disabled');
     }
   } else {
     if (updateBtn) {
@@ -327,7 +392,7 @@ function validateInput(event) {
   }
 }
 
-const eventsList = ["input", "blur"];
+const eventsList = ['input', 'blur'];
 
 formInputs.forEach(inputField => {
   for (let event of eventsList) {
@@ -337,57 +402,51 @@ formInputs.forEach(inputField => {
   }
 });
 
-setUpBirthdayBtn.addEventListener("click", e => {
+setUpBirthdayBtn.addEventListener('click', e => {
   e.preventDefault();
   birthdayEventSet.birthdayDate = birthdayDateField.value;
   birthdayEventSet.expectedGuests = expectedGuestsField.value;
-  localStorage.setItem("eventSet", JSON.stringify(birthdayEventSet));
-  setupBirthdaySection.classList.add("hidden");
-  mainContent.classList.remove("hidden");
-  homeSection.classList.remove('hidden');
+  localStorage.setItem('eventSet', JSON.stringify(birthdayEventSet));
+  setupBirthdaySection.classList.add('hidden');
   // display all added guests from local storage when page loads/refresh
-  view.displayAllAddedGuests();
-  view.displaySummaryColumns(
-    birthdayEventSet.expectedGuests,
-    guests.guestList.length
-);
+  view.showHomeSection();
 });
 
 // add event listener to parent element of add guests btn
-addGuestsBtnWrapper.addEventListener("click", e => {
+addGuestsBtnWrapper.addEventListener('click', e => {
   e.preventDefault();
-  if (e.target.classList.contains("add-guests-btn")) {
+  if (e.target.classList.contains('add-guests-btn')) {
     guests.addGuests(nameField.value, locationField.value);
-    nameField.value = "";
-    locationField.value = "";
+    nameField.value = '';
+    locationField.value = '';
     e.target.disabled = true;
     view.clearSuccessFormStyles();
   }
 });
 
-updateGuestsBtnWrapper.addEventListener("click", e => {
+updateGuestsBtnWrapper.addEventListener('click', e => {
   e.preventDefault();
-  if (e.target.classList.contains("update-guests-btn")) {
+  if (e.target.classList.contains('update-guests-btn')) {
     view.changeGuestDetails(e.target.id, nameField.value, locationField.value);
-    nameField.value = "";
-    locationField.value = "";
+    nameField.value = '';
+    locationField.value = '';
     view.clearSuccessFormStyles();
     view.showAddGuestsBtn();
   }
-  if (e.target.classList.contains("cancel-btn")) {
-    nameField.value = "";
-    locationField.value = "";
+  if (e.target.classList.contains('cancel-btn')) {
+    nameField.value = '';
+    locationField.value = '';
     view.showAddGuestsBtn();
     view.clearSuccessFormStyles();
   }
 });
 
 // Event delegation to make delete and update buttons clickable
-tableBody.addEventListener("click", e => {
-  if (e.target.classList.contains("deleteBtn")) {
+tableBody.addEventListener('click', e => {
+  if (e.target.classList.contains('deleteBtn')) {
     guests.deleteGuest(e.target.parentNode.parentNode.id);
   }
-  if (e.target.classList.contains("updateDetailsBtn")) {
+  if (e.target.classList.contains('updateDetailsBtn')) {
     view.loadFormWithGuestData(e.target.parentNode.parentNode.id);
     view.removeAddGuestsBtn();
     view.displayUpdateDetailsBtn(e.target.parentNode.parentNode.id);
@@ -397,63 +456,13 @@ tableBody.addEventListener("click", e => {
 
 // Display bar charts
 
-let ctx = document.getElementById("mybarChart");
-let ctx2 = document.getElementById("mypieChart");
-const guestsArray = [
-  parseInt(birthdayEventSet.expectedGuests),
-  guests.guestList.length
-];
-const labels = ["Expected Guests", "Added Guests"];
-
-let mybarChart = new Chart(ctx, {
-  type: "bar",
-  data: {
-    labels: labels,
-    datasets: [
-      {
-        label: 'guests',
-        data: guestsArray,
-        backgroundColor: [
-          'rgba(26, 78, 208, .4)',
-           'rgba(255, 206, 86, 0.4)',
-            'rgba(75, 192, 192, 0.2)',
-        ],
-      },
-    ],
-  },
-});
-
-let mypieChart = new Chart(ctx2, {
-  type: "pie",
-  data: {
-    labels: labels,
-    datasets: [
-      {
-        label: 'guests',
-        data: guestsArray,
-        backgroundColor: [
-          'rgba(26, 78, 208, .4)',
-           'rgba(255, 206, 86, 0.4)',
-            'rgba(75, 192, 192, 0.2)',
-        ],
-      },
-    ],
-  },
-});
 
 // check if birthday event is set
-if (birthdayEventSet.hasOwnProperty("birthdayDate")) {
+if (birthdayEventSet.hasOwnProperty('birthdayDate')) {
   // hide setup birthday section
-  setupBirthdaySection.classList.add("hidden");
-// display all added guests from local storage when page loads/refresh
-view.displayAllAddedGuests();
-view.displaySummaryColumns(
-  birthdayEventSet.expectedGuests,
-  guests.guestList.length
-);
-  // show homepage section
-  mainContent.classList.remove("hidden");
-  homeSection.classList.remove('hidden');
+  setupBirthdaySection.classList.add('hidden');
+  // show homepage section with data
+  view.showHomeSection();
 }else {
-  mainContent.classList.add("hidden");
+  mainContent.classList.add('hidden');
 }
