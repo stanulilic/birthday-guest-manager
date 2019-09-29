@@ -7,10 +7,12 @@ const setupBirthdaySection = document.querySelector('.setup-birthday-section');
 const setUpBirthdayBtn = document.querySelector('.setup-birthday-btn');
 const mainContent = document.querySelector('.main-content');
 const homeSection = document.querySelector('.home-section');
+const nav = document.querySelector('nav');
 const summaryWrapper = document.querySelector('.summary-wrapper');
 const nameField = document.getElementById('name');
 const locationField = document.getElementById('location');
 const successIcons = document.querySelectorAll('.add-guests .success');
+const guestsSection = document.querySelector('.guests-section');
 const addGuestsBtn = document.querySelector('.add-guests-btn');
 const addGuestsBtnWrapper = document.querySelector('.addguests-btn-wrap');
 const updateGuestsBtnWrapper = document.querySelector('.update-guests-wrap');
@@ -26,20 +28,20 @@ const birthdayEventSet = localStorage.getItem('eventSet')
 const fieldsData = {
   birthdayField: {
     regex: /20\d{2}-\d{2}-\d{2}/,
-    message: 'Please enter date with a valid format: mm/dd/yyyy'
+    message: 'Please enter date with a valid format: mm/dd/yyyy',
   },
   expectedGuestsField: {
     regex: /[1-9]{1,}/,
-    message: 'Please enter a number or digit only'
+    message: 'Please enter a number or digit only',
   },
   nameField: {
     regex: /^[ \u00c0-\u01ffa-zA-Z'\-]+$/,
-    message: 'Please enter a real name'
+    message: 'Please enter a real name',
   },
   locationField: {
     regex: /^[ \u00c0-\u01ffa-zA-Z'\-]+$/,
-    message: 'Please enter a valid location of the guest'
-  }
+    message: 'Please enter a valid location of the guest',
+  },
 };
 
 /* Program Utilities */
@@ -56,7 +58,7 @@ const utils = {
     'September',
     'October',
     'November',
-    'December'
+    'December',
   ],
   getCurrentDate() {
     const date = new Date();
@@ -80,10 +82,10 @@ const utils = {
       // Round to nearest whole number to deal with DST.
       return Math.round(
         Math.abs(birthdayDate - this.getCurrentDateAndTime()) /
-          (1000 * 60 * 60 * 24)
+          (1000 * 60 * 60 * 24),
       );
     }
-  }
+  },
 };
 
 const guests = {
@@ -94,7 +96,7 @@ const guests = {
     const guestData = {
       name,
       location,
-      dateAdded: utils.getCurrentDate()
+      dateAdded: utils.getCurrentDate(),
     };
     this.guestList.push(guestData);
     const arrayIndex = this.guestList.indexOf(guestData);
@@ -118,7 +120,7 @@ const guests = {
       this.guestList[position].location = location;
     }
     localStorage.setItem('items', JSON.stringify(this.guestList));
-  }
+  },
 };
 
 const view = {
@@ -127,7 +129,7 @@ const view = {
 
   guestsArray: [
   parseInt(birthdayEventSet.expectedGuests),
-  guests.guestList.length
+  guests.guestList.length,
   ],
 
   labels: ['Expected Guests', 'Added Guests'],
@@ -177,7 +179,7 @@ const view = {
   clearSuccessFormStyles() {
     nameField.classList.remove('has-success');
     locationField.classList.remove('has-success');
-    successIcons.forEach(icon => icon.classList.add('hidden'));
+    successIcons.forEach((icon) => icon.classList.add('hidden'));
   },
   displayAddedGuest(guest, index) {
     const tableRow = `
@@ -246,17 +248,21 @@ const view = {
     `;
     summaryWrapper.insertAdjacentHTML('beforeend', columns);
   },
+  showAddGuestsSection() {
+    homeSection.classList.add('hidden');
+    guestsSection.classList.remove('hidden');
+  },
   showHomeSection() {
   this.guestsArray =  [
   parseInt(birthdayEventSet.expectedGuests),
-  guests.guestList.length
+  guests.guestList.length,
   ];
     mainContent.classList.remove('hidden');
     homeSection.classList.remove('hidden');
     view.displayAllAddedGuests();
     view.displaySummaryColumns(
       birthdayEventSet.expectedGuests,
-      guests.guestList.length
+      guests.guestList.length,
 );
   // show bar and pie chart
   this.createBarChart();
@@ -318,7 +324,7 @@ const validators = {
       return true;
     }
     view.showInputIsInvalid(parent, target, parentSibling, message);
-  }
+  },
 };
 
 function validateInput(event) {
@@ -334,7 +340,7 @@ function validateInput(event) {
         parent,
         target,
         parentSibling,
-        birthdayDateField
+        birthdayDateField,
       );
       break;
     case 'expected-guests':
@@ -343,7 +349,7 @@ function validateInput(event) {
         parent,
         target,
         parentSibling,
-        expectedGuestsField
+        expectedGuestsField,
       );
       break;
     case 'name':
@@ -352,7 +358,7 @@ function validateInput(event) {
         parent,
         target,
         parentSibling,
-        nameField
+        nameField,
       );
       break;
     case 'location':
@@ -361,7 +367,7 @@ function validateInput(event) {
         parent,
         target,
         parentSibling,
-        locationField
+        locationField,
       );
       break;
     default:
@@ -394,7 +400,7 @@ function validateInput(event) {
 
 const eventsList = ['input', 'blur'];
 
-formInputs.forEach(inputField => {
+formInputs.forEach((inputField) => {
   for (let event of eventsList) {
     inputField.addEventListener(event, function(e) {
       validateInput(e);
@@ -402,7 +408,7 @@ formInputs.forEach(inputField => {
   }
 });
 
-setUpBirthdayBtn.addEventListener('click', e => {
+setUpBirthdayBtn.addEventListener('click', (e) => {
   e.preventDefault();
   birthdayEventSet.birthdayDate = birthdayDateField.value;
   birthdayEventSet.expectedGuests = expectedGuestsField.value;
@@ -413,7 +419,7 @@ setUpBirthdayBtn.addEventListener('click', e => {
 });
 
 // add event listener to parent element of add guests btn
-addGuestsBtnWrapper.addEventListener('click', e => {
+addGuestsBtnWrapper.addEventListener('click', (e) => {
   e.preventDefault();
   if (e.target.classList.contains('add-guests-btn')) {
     guests.addGuests(nameField.value, locationField.value);
@@ -424,7 +430,7 @@ addGuestsBtnWrapper.addEventListener('click', e => {
   }
 });
 
-updateGuestsBtnWrapper.addEventListener('click', e => {
+updateGuestsBtnWrapper.addEventListener('click', (e) => {
   e.preventDefault();
   if (e.target.classList.contains('update-guests-btn')) {
     view.changeGuestDetails(e.target.id, nameField.value, locationField.value);
@@ -442,7 +448,7 @@ updateGuestsBtnWrapper.addEventListener('click', e => {
 });
 
 // Event delegation to make delete and update buttons clickable
-tableBody.addEventListener('click', e => {
+tableBody.addEventListener('click', (e) => {
   if (e.target.classList.contains('deleteBtn')) {
     guests.deleteGuest(e.target.parentNode.parentNode.id);
   }
@@ -453,9 +459,15 @@ tableBody.addEventListener('click', e => {
   }
 });
 
-
-// Display bar charts
-
+nav.addEventListener('click', (e) => {
+  if(e.target.id == 'addguests'){
+  view.showAddGuestsSection();
+  }
+  if(e.target.id == 'home') {
+    homeSection.classList.remove('hidden');
+    guestsSection.classList.add('hidden');
+  }
+});
 
 // check if birthday event is set
 if (birthdayEventSet.hasOwnProperty('birthdayDate')) {
@@ -463,6 +475,6 @@ if (birthdayEventSet.hasOwnProperty('birthdayDate')) {
   setupBirthdaySection.classList.add('hidden');
   // show homepage section with data
   view.showHomeSection();
-}else {
+} else {
   mainContent.classList.add('hidden');
 }
