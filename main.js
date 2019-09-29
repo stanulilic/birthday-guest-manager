@@ -17,7 +17,7 @@ const tableBody = document.querySelector('.guests-list tbody');
 let isBirthdayFieldValid; let isExpectedGuestsFieldValid;
 
 const birthdayEventSet = localStorage.getItem('eventSet') 
-? JSON.parse(localStorage.getItem('eventSet')) : {};
+  ? JSON.parse(localStorage.getItem('eventSet')) : {};
 
 
 const fieldsData = {
@@ -60,10 +60,12 @@ const utils = {
     return new Date(ymd[0], ymd[1] - 1, ymd[2]);
   },
   dateDifference() {
-    const birthdayDate = this.parseDate(birthdayEventSet.birthdayDate);
-    // Take the difference between the dates and divide by milliseconds per day.
-    // Round to nearest whole number to deal with DST.
-    return Math.round(Math.abs(birthdayDate - this.getCurrentDateAndTime()) / (1000 * 60 * 60 * 24));
+    if (birthdayEventSet.birthdayDate) {
+      const birthdayDate = this.parseDate(birthdayEventSet.birthdayDate);
+      // Take the difference between the dates and divide by milliseconds per day.
+      // Round to nearest whole number to deal with DST.
+      return Math.round(Math.abs(birthdayDate - this.getCurrentDateAndTime()) / (1000 * 60 * 60 * 24));
+    }
   },
 };
 
