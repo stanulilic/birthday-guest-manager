@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-<main class="main-content">
+<main class="main-content hidden">
   <header class="header sidebar">
      <div class="header-logo">
      <h1><a href="#">Birthday Guest Manager</a></h1>
@@ -16,12 +16,12 @@
      <nav>
         <ul>
         <li><a href="#"><svg class="icon icon-home3"><use xlink:href="#icon-home3"></use></svg> Home</a></li>
-        <li><a href="#"><svg class="icon icon-users"><use xlink:href="#icon-users"></use></svg> Guests</a></li>
+        <li><a href="#addguests"><svg class="icon icon-users"><use xlink:href="#icon-users"></use></svg> Guests</a></li>
         </ul>
      </nav>
   </header>
 
-  <section class="content-wrapper home-section">
+  <section class="content-wrapper home-section hidden" id="home">
     <div class="event-info">
        <article class="card">
         <h3>Upcoming Birthday</h3>
@@ -29,6 +29,8 @@
         <p>Birthday Guest manager is an application that lets you manage guests who will attend your birthday</p>
        </article>
        <article class="pie-chart card">
+         <canvas id="mypieChart">
+         </canvas>
        </article>
     </div>
     <div class="guest-summaries">
@@ -40,7 +42,7 @@
       </div>
     </div>
   </section>
-  <section class="content-wrapper guests-page hidden">
+  <section class="content-wrapper guests-page hidden" id="add-guests">
    <form class="add-guests">
      <div class="inputs-wrap">
      <p>

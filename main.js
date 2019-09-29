@@ -5,6 +5,7 @@ const setupBirthdayForm = document.querySelector(".setup-birthday");
 const setupBirthdaySection = document.querySelector(".setup-birthday-section");
 const setUpBirthdayBtn = document.querySelector(".setup-birthday-btn");
 const mainContent = document.querySelector(".main-content");
+const homeSection = document.querySelector(".home-section");
 const summaryWrapper = document.querySelector(".summary-wrapper");
 const nameField = document.getElementById("name");
 const locationField = document.getElementById("location");
@@ -336,10 +337,6 @@ formInputs.forEach(inputField => {
   }
 });
 
-if (birthdayEventSet.hasOwnProperty("birthdayDate")) {
-  setupBirthdaySection.classList.add("hidden");
-  mainContent.classList.remove("hidden");
-}
 setUpBirthdayBtn.addEventListener("click", e => {
   e.preventDefault();
   birthdayEventSet.birthdayDate = birthdayDateField.value;
@@ -347,6 +344,13 @@ setUpBirthdayBtn.addEventListener("click", e => {
   localStorage.setItem("eventSet", JSON.stringify(birthdayEventSet));
   setupBirthdaySection.classList.add("hidden");
   mainContent.classList.remove("hidden");
+  homeSection.classList.remove('hidden');
+  // display all added guests from local storage when page loads/refresh
+  view.displayAllAddedGuests();
+  view.displaySummaryColumns(
+    birthdayEventSet.expectedGuests,
+    guests.guestList.length
+);
 });
 
 // add event listener to parent element of add guests btn
@@ -390,16 +394,11 @@ tableBody.addEventListener("click", e => {
   }
 });
 
-// display all added guests from local storage when page loads/refresh
-view.displayAllAddedGuests();
-view.displaySummaryColumns(
-  birthdayEventSet.expectedGuests,
-  guests.guestList.length
-);
 
 // Display bar charts
 
 let ctx = document.getElementById("mybarChart");
+let ctx2 = document.getElementById("mypieChart");
 const guestsArray = [
   parseInt(birthdayEventSet.expectedGuests),
   guests.guestList.length
@@ -424,3 +423,37 @@ let mybarChart = new Chart(ctx, {
   },
 });
 
+let mypieChart = new Chart(ctx2, {
+  type: "pie",
+  data: {
+    labels: labels,
+    datasets: [
+      {
+        label: 'guests',
+        data: guestsArray,
+        backgroundColor: [
+          'rgba(26, 78, 208, .4)',
+           'rgba(255, 206, 86, 0.4)',
+            'rgba(75, 192, 192, 0.2)',
+        ],
+      },
+    ],
+  },
+});
+
+// check if birthday event is set
+if (birthdayEventSet.hasOwnProperty("birthdayDate")) {
+  // hide setup birthday section
+  setupBirthdaySection.classList.add("hidden");
+// display all added guests from local storage when page loads/refresh
+view.displayAllAddedGuests();
+view.displaySummaryColumns(
+  birthdayEventSet.expectedGuests,
+  guests.guestList.length
+);
+  // show homepage section
+  mainContent.classList.remove("hidden");
+  homeSection.classList.remove('hidden');
+}else {
+  mainContent.classList.add("hidden");
+}
