@@ -493,6 +493,10 @@ ul {
 
 }
 
+input:invalid {
+  box-shadow:0 0 0;
+}
+
 .logo {
     text-align: center;
     margin-bottom: 150px;

@@ -483,9 +483,8 @@ nav.addEventListener('click', (e) => {
 });
 
 appLogo.addEventListener('click', (e) => {
-  e.preventDefault();
   view.showHomeSection();
-  guestsSection.classList.add('hidden');
+    guestsSection.classList.add('hidden');
 });
 
 resetBtn.addEventListener('click', (e) => {
