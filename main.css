@@ -654,24 +654,11 @@ a {
    ===========================================================================
 */
 .home-section {
-  display: flex;
   max-width: 1050px;
   /* flex-wrap: wrap; */
 }
 
-.event-info {
-  flex-basis: 30%;
-  margin-right: 5%;
-}
 
-.guest-summaries {
-  flex-basis: 50%;
-}
-
-.summary-wrapper {
-  display: flex;
-  /* justify-content: space-between; */
-}
 .home-section .card {
   border-radius: 10px;
   background: #fff;
@@ -699,6 +686,25 @@ a {
   background: #1a4ed0;
   color: #fff
 }
+@media screen and (min-width: 600px) {
+.summary-wrapper {
+  display: flex;
+  /* justify-content: space-between; */
+}
+}
+@media screen and (min-width: 850px) {
+.home-section {
+  display: flex;
+}
+.event-info {
+  flex-basis: 30%;
+  margin-right: 5%;
+}
+.guest-summaries {
+  flex-basis: 50%;
+}
+}
+
 /* ===========================================================================
     Add Guests Section
    ===========================================================================
