@@ -341,17 +341,17 @@ const validators = {
     }
     view.showInputIsInvalid(parent, target, parentSibling, message);
   },
-};
-
-function validateInput(event) {
+validateInputRealtime(event) {
   const target = event.target;
   const targetId = event.target.id;
   const parent = event.target.parentNode;
   const parentSibling = event.target.parentNode.nextElementSibling;
   const updateBtn = updateGuestsBtnWrapper.querySelector('.update-guests-btn');
+  const nameFieldHasSuccess = nameField.classList.contains('has-success');
+  const locationFieldHasSuccess = locationField.classList.contains('has-success');
   switch (targetId) {
     case 'birthday-date':
-      isBirthdayFieldValid = validators.runValidator(
+      isBirthdayFieldValid = this.runValidator(
         fieldsData.birthdayField,
         parent,
         target,
@@ -360,7 +360,7 @@ function validateInput(event) {
       );
       break;
     case 'expected-guests':
-      isExpectedGuestsFieldValid = validators.runValidator(
+      isExpectedGuestsFieldValid = this.runValidator(
         fieldsData.expectedGuestsField,
         parent,
         target,
@@ -369,7 +369,7 @@ function validateInput(event) {
       );
       break;
     case 'name':
-      validators.runValidator(
+      this.runValidator(
         fieldsData.nameField,
         parent,
         target,
@@ -378,7 +378,7 @@ function validateInput(event) {
       );
       break;
     case 'location':
-      validators.runValidator(
+      this.runValidator(
         fieldsData.locationField,
         parent,
         target,
@@ -392,18 +392,12 @@ function validateInput(event) {
   if (isBirthdayFieldValid && isExpectedGuestsFieldValid) {
     setUpBirthdayBtn.removeAttribute('disabled');
   }
-  if (
-    nameField.classList.contains('has-success') &&
-    locationField.classList.contains('has-success')
-  ) {
+  if (nameFieldHasSuccess && locationFieldHasSuccess) {
     addGuestsBtn.removeAttribute('disabled');
   } else {
     addGuestsBtn.disabled = true;
   }
-  if (
-    nameField.classList.contains('has-success') ||
-    locationField.classList.contains('has-success')
-  ) {
+  if (nameFieldHasSuccess || locationFieldHasSuccess) {
     if (updateBtn) {
       updateBtn.removeAttribute('disabled');
     }
@@ -412,14 +406,16 @@ function validateInput(event) {
       updateBtn.disabled = true;
     }
   }
-}
+},
+};
+
 
 const eventsList = ['input', 'blur'];
 
 formInputs.forEach((inputField) => {
   for (let event of eventsList) {
     inputField.addEventListener(event, function(e) {
-      validateInput(e);
+      validators.validateInputRealtime(e);
     });
   }
 });
