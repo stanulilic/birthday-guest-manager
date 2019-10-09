@@ -7,6 +7,7 @@ const setupBirthdaySection = document.querySelector('.setup-birthday-section');
 const setUpBirthdayBtn = document.querySelector('.setup-birthday-btn');
 const mainContent = document.querySelector('.main-content');
 const homeSection = document.querySelector('.home-section');
+const setBirthdayDateWrapper = document.querySelector('.set-birthday-date');
 const nav = document.querySelector('nav');
 const summaryWrapper = document.querySelector('.summary-wrapper');
 const nameField = document.getElementById('name');
@@ -60,8 +61,7 @@ const utils = {
     'November',
     'December',
   ],
-  getCurrentDate() {
-    const date = new Date();
+  getCurrentDate(date = new Date()) {
     const month = this.months[date.getMonth()];
     const day = date.getDate();
     const year = date.getFullYear();
@@ -85,6 +85,10 @@ const utils = {
           (1000 * 60 * 60 * 24),
       );
     }
+  },
+  getSetBirthdayDate() {
+  const date = utils.parseDate(birthdayEventSet.birthdayDate);
+  return utils.getCurrentDate(date);
   },
 };
 
@@ -256,6 +260,9 @@ const view = {
     homeSection.classList.add('hidden');
     guestsSection.classList.remove('hidden');
   },
+  showSetBirthdayDate() {
+    setBirthdayDateWrapper.innerHTML = utils.getSetBirthdayDate();
+  },
   showHomeSection() {
   this.guestsArray =  [
   parseInt(birthdayEventSet.expectedGuests),
@@ -266,6 +273,7 @@ const view = {
     }
     mainContent.classList.remove('hidden');
     homeSection.classList.remove('hidden');
+    this.showSetBirthdayDate();
     view.displayAllAddedGuests();
     view.displaySummaryColumns(
       birthdayEventSet.expectedGuests,
@@ -493,3 +501,5 @@ if (birthdayEventSet.hasOwnProperty('birthdayDate')) {
     view.showAddGuestsSection();
     }
   }
+
+
