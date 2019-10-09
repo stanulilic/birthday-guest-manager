@@ -249,6 +249,10 @@ const view = {
     summaryWrapper.insertAdjacentHTML('beforeend', columns);
   },
   showAddGuestsSection() {
+    while (tableBody.firstChild) {
+      tableBody.removeChild(tableBody.firstChild);
+    }
+    view.displayAllAddedGuests();
     homeSection.classList.add('hidden');
     guestsSection.classList.remove('hidden');
   },
