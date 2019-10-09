@@ -257,6 +257,9 @@ const view = {
   parseInt(birthdayEventSet.expectedGuests),
   guests.guestList.length,
   ];
+    while (summaryWrapper.firstChild) {
+      summaryWrapper.removeChild(summaryWrapper.firstChild);
+    }
     mainContent.classList.remove('hidden');
     homeSection.classList.remove('hidden');
     view.displayAllAddedGuests();
@@ -460,11 +463,11 @@ tableBody.addEventListener('click', (e) => {
 });
 
 nav.addEventListener('click', (e) => {
-  if(e.target.id == 'addguests'){
+  if(e.target.id === 'addguests'){
   view.showAddGuestsSection();
   }
-  if(e.target.id == 'home') {
-    homeSection.classList.remove('hidden');
+  if(e.target.id === 'home') {
+    view.showHomeSection();
     guestsSection.classList.add('hidden');
   }
 });
