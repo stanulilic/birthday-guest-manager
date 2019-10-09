@@ -8,6 +8,7 @@ const setUpBirthdayBtn = document.querySelector('.setup-birthday-btn');
 const mainContent = document.querySelector('.main-content');
 const homeSection = document.querySelector('.home-section');
 const setBirthdayDateWrapper = document.querySelector('.set-birthday-date');
+const resetBtn = document.querySelector('.reset-btn');
 const nav = document.querySelector('nav');
 const summaryWrapper = document.querySelector('.summary-wrapper');
 const nameField = document.getElementById('name');
@@ -482,6 +483,11 @@ nav.addEventListener('click', (e) => {
     view.showHomeSection();
     guestsSection.classList.add('hidden');
   }
+});
+
+resetBtn.addEventListener('click', (e) => {
+  localStorage.clear();
+  document.location.reload(); 
 });
 
 // check if birthday event is set
