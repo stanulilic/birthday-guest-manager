@@ -467,10 +467,10 @@ tableBody.addEventListener('click', (e) => {
 });
 
 nav.addEventListener('click', (e) => {
-  if(e.target.id === 'addguests'){
+  if (e.target.id === 'addguests') {
   view.showAddGuestsSection();
   }
-  if(e.target.id === 'home') {
+  if (e.target.id === 'home') {
     view.showHomeSection();
     guestsSection.classList.add('hidden');
   }
@@ -485,3 +485,11 @@ if (birthdayEventSet.hasOwnProperty('birthdayDate')) {
 } else {
   mainContent.classList.add('hidden');
 }
+
+// check when the page is refreshed
+// if url hash is equal to 'addguests', who add guests section
+ if (performance.navigation.type === 1) {
+    if (window.location.hash === '#addguests') {
+    view.showAddGuestsSection();
+    }
+  }
