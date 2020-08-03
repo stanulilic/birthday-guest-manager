@@ -4,6 +4,10 @@ This app intended to be used to manage the guests you are expecting to attend a 
 
 This project was mostly done for practicing CRUD with plain Javascript and playing around with Chart.js to create visualizations.
 
+## Demo
+
+Here is a link to the live demostration: [https://stanulilic.github.io/birthday-guest-manager/](https://stanulilic.github.io/birthday-guest-manager/)
+
 ## Stack
 I used the following to do the project:
 - Html and Css
